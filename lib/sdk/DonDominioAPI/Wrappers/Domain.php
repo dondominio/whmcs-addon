@@ -40,15 +40,15 @@ class DonDominioAPI_Domain extends DonDominioAPIModule
 	 * @param string $domain Domain name to check
 	 * @return DonDominioResponse
 	 */
-	protected function check($domain)
+	protected function check( $domain )
 	{
-		$_params = array('domain' => $domain);
+		$_params = array( 'domain' => $domain );
 		
 		$map = array(
-			array('name'=>'domain', 'type'=>'domain', 'required'=>true)
+			array( 'name'=>'domain', 'type'=>'domain', 'required'=>true )
 		);
 		
-		return $this->execute('domain/check/', $_params, $map);
+		return $this->execute( 'domain/check/', $_params, $map );
 	}
 	
 	/**
@@ -640,8 +640,7 @@ class DonDominioAPI_Domain extends DonDominioAPIModule
 	 *
 	 * ! = required
 	 * - infoType		string		Type of information to get. Accepted values:
-	 *								status, contact, nameservers, authcode,
-	 *								service, gluerecords.
+	 *								status, contact, nameservers, authcode, service, gluerecords.
 	 *
 	 * @link https://docs.dondominio.com/api/#section-5-12
 	 *

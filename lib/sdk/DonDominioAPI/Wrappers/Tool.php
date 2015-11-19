@@ -130,7 +130,6 @@ class DonDominioAPI_Tool extends DonDominioAPIModule
 	 *
 	 * ! = required
 	 * ! nameservers	string	 	Comma-separated list of DNS servers (min 2, max 7).
-	 *								Use "parking" for redirection & parking service.
 	 *
 	 * @param string $domain Domain to be checked
 	 * @param array $args Associative array of parameters

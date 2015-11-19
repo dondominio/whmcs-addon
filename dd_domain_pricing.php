@@ -16,7 +16,7 @@ function dd_domain_pricing($tld)
 			code='EUR'
 	");
 	
-	if(mysql_num_rows($euro_currency) == 0){
+	if( mysql_num_rows( $euro_currency ) == 0 ){
 		echo "
 		<div class='errorbox'>
 			Currency EUR not found
@@ -26,7 +26,7 @@ function dd_domain_pricing($tld)
 		return false;
 	}
 	
-	list($euro) = mysql_fetch_row($euro_currency);
+	list( $euro ) = mysql_fetch_row( $euro_currency );
 	
 	//Getting prices for TLD
 	$prices = full_query("
@@ -42,7 +42,7 @@ function dd_domain_pricing($tld)
 			tld='$tld'
 	");
 	
-	if(mysql_num_rows($prices) == 0){
+	if( mysql_num_rows( $prices ) == 0 ){
 		echo "
 		<div class='errorbox'>
 			TLD not found in local cache. Regenerate cache and try again.

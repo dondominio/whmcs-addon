@@ -20,18 +20,20 @@ if(!defined("WHMCS")){
  */
 function dondominio_mod_tlds_index($vars)
 {
-	switch($_POST['form_action']){
-	case 'update':
-		dondominio_mod_tlds_update($vars);
-		break;
-	case 'registrar':
-		dondominio_mod_tlds_switchRegistrar($vars);
-		break;
-	case 'create':
-		dondominio_mod_tlds_create($vars);
-		dd_create_currency_placeholders();
-		dd_update_currencies();
-		break;
+	if( array_key_exists( 'form_action', $_POST )){
+		switch($_POST['form_action']){
+		case 'update':
+			dondominio_mod_tlds_update($vars);
+			break;
+		case 'registrar':
+			dondominio_mod_tlds_switchRegistrar($vars);
+			break;
+		case 'create':
+			dondominio_mod_tlds_create($vars);
+			dd_create_currency_placeholders();
+			dd_update_currencies();
+			break;
+		}
 	}
 	
 	$LANG = $vars['_lang'];

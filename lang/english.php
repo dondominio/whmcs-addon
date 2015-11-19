@@ -19,6 +19,7 @@ $_ADDONLANG = array(
 	'btn_add_selected' => 'Add Selected',
 	'btn_save' => 'Save changes',
 	'btn_back' => 'Go back',
+	'btn_transfer' => 'Transfer to DonDominio/MrDomain',
 	
 	//Info
 	'info_with_selected' => 'With selected:',
@@ -34,6 +35,7 @@ $_ADDONLANG = array(
 	'menu_tlds_new' => 'Available TLDs',
 	'menu_domains' => 'Manage domains',
 	'menu_import' => 'Import domains',
+	'menu_transfer' => 'Transfer domains',
 	'menu_settings' => 'Settings',
 	'menu_help' => 'Help & Documentation',
 	
@@ -121,8 +123,24 @@ $_ADDONLANG = array(
 	'import_imported' => 'Imported',
 	'import_not_imported' => 'Not Imported',
 	'import_success' => 'The following domains have been imported:',
-	'import_not_imported' => 'The following domains were already in the database:',
+	'import_completed_not_imported' => 'The following domains were already in the database:',
 	'import_error' => 'The following couldn\'t be imported because of an error:',
+	
+	//Transfer
+	'transfer_title' => 'Transfer domains',
+	'transfer_info' => 'Use this option to transfer domains to DonDominio/MrDomain from other registrars',
+	'transfer_domain' => 'Domain name',
+	'transfer_authcode' => 'Authcode/EPP',
+	'transfer_authcode_required' => 'This domain extension requires an Authcode/EPP to transfer domains',
+	'transfer_generic_error' => 'There was an error while starting the transfer',
+	'transfer_domain_not_found' => 'The request domain could not be found on WHMCS',
+	'transfer_invalid_domain_name' => 'This domain does not have a valid domain name',
+	'transfer_tld_not_found' => 'This domain extension is not supported by DonDominio/MrDomain',
+	'transfer_client_not_found' => 'The customer could not be found on WHMCS',
+	'transfer_vatnumber_empty' => 'This customer\'s VAT Number is empty; could not continue',
+	'transfer_already_transferred' => 'This domain has been already transferred to DonDominio/MrDomain',
+	'transfer_error' => 'There was an error while starting the transfer',
+	'transfer_success' => 'Transfer has been initiated correctly',
 	
 	//Settings
 	'settings_title' => 'Settings',

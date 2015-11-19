@@ -19,6 +19,7 @@ $_ADDONLANG = array(
 	'btn_add_selected' => 'Añadir seleccionados',
 	'btn_save' => 'Guardar cambios',
 	'btn_back' => 'Volver',
+	'btn_transfer' => 'Transferir a DonDominio',
 	
 	//Info
 	'info_enabled' => 'El Addon DonDominio Manager está ahora listo. ¡Que lo disfrutes!',
@@ -38,6 +39,7 @@ $_ADDONLANG = array(
 	'menu_tlds_new' => 'TLDs disponibles',
 	'menu_domains' => 'Gestión de dominios',
 	'menu_import' => 'Importar dominios',
+	'menu_transfer' => 'Transferir dominios',
 	'menu_settings' => 'Configuración',
 	'menu_help' => 'Ayuda y documentación',
 	
@@ -127,6 +129,22 @@ $_ADDONLANG = array(
 	'import_success' => 'Los siguientes dominios han sido importados:',
 	'import_completed_not_imported' => 'Los siguientes dominios ya existían en la base de datos:',
 	'import_error' => 'Los siguientes dominios no se han importado debido a un error:',
+	
+	//Transfer
+	'transfer_title' => 'Transferir dominios',
+	'transfer_info' => 'Utiliza esta opción para transferir dominios a DonDominio desde otros registradores',
+	'transfer_domain' => 'Nombre de dominio',
+	'transfer_authcode' => 'Authcode/EPP',
+	'transfer_authcode_required' => 'Esta extensión de dominio require un Authcode/EPP para transferir dominios',
+	'transfer_generic_error' => 'Se ha producido un error al transferir el dominio',
+	'transfer_domain_not_found' => 'El dominio solicitado no se ha encontrado en WHMCS',
+	'transfer_invalid_domain_name' => 'El dominio no tiene un nombre de dominio válido',
+	'transfer_tld_not_found' => 'La extensión de dominio no es una extensión soportada por DonDominio',
+	'transfer_client_not_found' => 'El cliente no ha sido encontrado en WHMCS',
+	'transfer_vatnumber_empty' => 'El cliente tiene el campo NIF vacío; no se puede continuar',
+	'transfer_already_transferred' => 'Este dominio ya ha sido transferido a DonDominio',
+	'transfer_error' => 'Se ha producido un error al transferir el dominio',
+	'transfer_success' => 'Transferencia iniciada correctamente',
 	
 	//Settings
 	'settings_title' => 'Configuración',

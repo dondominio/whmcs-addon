@@ -47,6 +47,14 @@ function dd_get($key)
  */
 function dd_set($key, $value)
 {
+	$exists = dd_get( $key );
+	
+	if( empty( $exists )){
+		$create = full_query( "INSERT INTO `mod_dondominio_settings` (`key`, `value`) VALUES ( '$key', '$value')" );
+		
+		return $create;
+	}
+	
 	$update = full_query("UPDATE `mod_dondominio_settings` SET `value`='$value' WHERE `key`='$key'");
 	
 	return $update;
@@ -88,6 +96,29 @@ function dd_send_email($subject, $html)
 	return true;
 }
 
+function dd_getVersion()
+{
+	$versionFile = __DIR__ . '/version.json';
+	
+	if( !file_exists( $versionFile )){
+		return 'unknown';
+	}
+	
+	$json = @file_get_contents( $versionFile );
+	
+	if( empty( $json )){
+		return 'unknown';
+	}
+	
+	$versionInfo = json_decode( $json, true );
+	
+	if( !is_array( $versionInfo ) || !array_key_exists( 'version', $versionInfo )){
+		return 'unknown';
+	}
+	
+	return $versionInfo['version'];
+}
+
 /**
  * Initialize DonDominio API Client.
  * @return DonDominioAPI
@@ -101,6 +132,9 @@ function dd_init()
 		'versionCheck' => true,
 		'response' => array(
 			'throwExceptions' => true
+		),
+		'userAgent' => array(
+			'DomainManagementAddonForWHMCS' => dd_getVersion()
 		)
 	);
 	

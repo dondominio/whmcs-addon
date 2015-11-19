@@ -154,7 +154,7 @@ function dondominio_mod_settings_index($vars)
 	<br />
 	
 	<div id='tabs'>
-		<ul>
+		<ul class='nav nav-tabs admin-tabs' role='tablist'>
 			<li id='tab0' class='tab $tab0'>
 				<a href='javascript:;'>" . $LANG['settings_api_title'] . "</a>
 			</li>

@@ -22,15 +22,13 @@ function dondominio_mod_import_index($vars)
 {
 	$LANG = $vars['_lang'];
 	
-	if(!empty($_POST['form_action'])){
+	if( array_key_exists( 'form_action', $_POST )){
 		if(count($_POST['domain_checkbox'])){
-			if(array_key_exists('form_action', $_POST)){
-				switch($_POST['form_action']){
-				case 'import':
-					dondominio_mod_import_doImport($vars, array_keys($_POST['domain_checkbox']));
-					
-					break;
-				}
+			switch($_POST['form_action']){
+			case 'import':
+				dondominio_mod_import_doImport($vars, array_keys($_POST['domain_checkbox']));
+				
+				break;
 			}
 		}else{
 			echo "

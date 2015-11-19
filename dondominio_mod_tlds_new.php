@@ -9,7 +9,7 @@
  * @license CC BY-ND 3.0 <http://creativecommons.org/licenses/by-nd/3.0/>
  */
  
-if(!defined("WHMCS")){
+if( !defined( "WHMCS" )){
 	die("This file cannot be accessed directly");
 }
 
@@ -18,54 +18,60 @@ if(!defined("WHMCS")){
  * List of TLDs available to create on WHMCS.
  * @param array $vars Parameters from WHMCS
  */
-function dondominio_mod_tlds_new_index($vars)
+function dondominio_mod_tlds_new_index( $vars )
 {
-	if(array_key_exists('tld_create', $_POST)){
-		dondominio_mod_tlds_create($vars);
+	if(array_key_exists( 'tld_create', $_POST )){
+		dondominio_mod_tlds_create( $vars );
 		dd_create_currency_placeholders();
 		dd_update_currencies();
 	}
 	
-	switch($_POST['form_action']){
-	case 'create':
-		dondominio_mod_tlds_create($vars);
-		dd_create_currency_placeholders();
-		dd_update_currencies();
-		
-		break;
+	if( array_key_exists( 'form_action', $_POST )){
+		switch( $_POST['form_action'] ){
+		case 'create':
+			dondominio_mod_tlds_create( $vars );
+			dd_create_currency_placeholders();
+			dd_update_currencies();
+			
+			break;
+		}
 	}
 	
 	$LANG = $vars['_lang'];
+	
+	if( !array_key_exists( 'filter_tld', $_GET )){
+		$_GET['filter_tld'] = '';
+	}
 	
 	/*
 	 * Pagination.
 	 */
 	$page = 1;
 	
-	$items = dd_get_setting("NumRecordstoDisplay");
+	$items = dd_get_setting( "NumRecordstoDisplay" );
 	
-	if(array_key_exists('page', $_GET) && $_GET['page'] > 1){
+	if( array_key_exists( 'page', $_GET ) && $_GET['page'] > 1 ){
 		$page = $_GET['page'];
 	}
 	
-	$total_tlds = full_query("
+	$total_tlds = full_query( "
 		SELECT
 			count(id)
 		FROM mod_dondominio_pricing
 		WHERE
 			tld NOT IN (SELECT extension FROM tbldomainpricing)
 			AND tld LIKE '%" . $_GET['filter_tld'] . "%'
-	");
+	" );
 	
-	list($total) = mysql_fetch_row($total_tlds);
+	list( $total ) = mysql_fetch_row( $total_tlds );
 	
-	$total_pages = ceil($total / $items);
+	$total_pages = ceil( $total / $items );
 	
-	if($page > $total_pages){
+	if( $page > $total_pages ){
 		$page = $total_pages;
 	}
 	
-	$start = (($page - 1) * $items);
+	$start = (( $page - 1 ) * $items );
 	/* *** */
 	
 	$s_tlds = "
@@ -85,7 +91,7 @@ function dondominio_mod_tlds_new_index($vars)
 			$start, $items
 	";
 	
-	$tlds = full_query($s_tlds);
+	$tlds = full_query( $s_tlds );
 	
 	echo "
 	<h2>" . $LANG['tld_new_title'] . "</h2>
@@ -93,7 +99,7 @@ function dondominio_mod_tlds_new_index($vars)
 	<p>" . $LANG['tld_new_info'] . "</p>
 	
 	<div id='tabs'>
-		<ul>
+		<ul class='nav nav-tabs admin-tabs'>
 			<li id='tab0' class='tab'>
 				<a href='javascript:;'>
 					" . $LANG['filter_title'] . "
@@ -137,7 +143,7 @@ function dondominio_mod_tlds_new_index($vars)
 		<input type='hidden' name='action' value='tlds_new' />
 	";
 	
-	if(array_key_exists('filter_tld', $_GET)){
+	if( array_key_exists( 'filter_tld', $_GET )){
 		echo "
 		<input type='hidden' name='filter_tld' value='" . $_GET['filter_tld'] . "' />
 		";
@@ -210,16 +216,22 @@ function dondominio_mod_tlds_new_index($vars)
 			<tbody>
 	";
 	
-	while(list($tld_id, $tld, $register_price, $transfer_price, $renew_price) = mysql_fetch_row($tlds)){
-		if(!is_numeric($register_price)){
+	while( list(
+		$tld_id,
+		$tld,
+		$register_price,
+		$transfer_price,
+		$renew_price
+	) = mysql_fetch_row( $tlds )){
+		if( !is_numeric( $register_price )){
 			$register_price = $LANG['tld_not_available'];
 		}
 		
-		if(!is_numeric($transfer_price)){
+		if( !is_numeric( $transfer_price )){
 			$transfer_price = $LANG['tld_not_available'];
 		}
 		
-		if(!is_numeric($renew_price)){
+		if( !is_numeric( $renew_price )){
 			$renew_price = $LANG['tld_not_available'];
 		}
 		
@@ -291,13 +303,13 @@ function dondominio_mod_tlds_new_index($vars)
 	<p align='center'>
 	";
 	
-	if(array_key_exists('filter_tld', $_GET)){
+	if( array_key_exists( 'filter_tld', $_GET )){
 		$filter_var = '&filter_tld=' . $_GET['filter_tld'];
 	}else{
 		$filter_var = '';
 	}
 	
-	if($page > 1){
+	if( $page > 1 ){
 		echo "
 		<a href='addonmodules.php?module=dondominio&action=tlds_new$filter_var&page=" . ($page - 1) . "'>« " . $LANG['pagination_previous'] . "</a>
 		";
@@ -309,7 +321,7 @@ function dondominio_mod_tlds_new_index($vars)
 	
 	echo "&nbsp;";
 	
-	if($page < $total_pages){
+	if( $page < $total_pages ){
 		echo "
 		<a href='addonmodules.php?module=dondominio&action=tlds_new$filter_var&page=" . ($page + 1) . "'>" . $LANG['pagination_next'] . "»</a>
 		";
@@ -428,7 +440,7 @@ function dondominio_mod_tlds_create( $vars )
 		}
 	}
 	
-	if( count( $added ) > 0){
+	if( count( $added ) > 0 ){
 		echo "
 			<div class='successbox'>
 				" . $LANG['tld_created_success_info'] . "<br>

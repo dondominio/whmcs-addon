@@ -18,44 +18,41 @@ if(!defined("WHMCS")){
  * Domain list with bulk actions.
  * @param array $vars Parameters from WHMCS
  */
-function dondominio_mod_domains_index($vars)
+function dondominio_mod_domains_index( $vars )
 {
 	$LANG = $vars['_lang'];
 	
-	if(!empty($_POST['form_action'])){
-		if(count($_POST['domain_checkbox'])){
-			if(array_key_exists('form_action', $_POST)){
-				switch($_POST['form_action']){
-				case 'registrar':
-					dondominio_mod_domains_switchRegistrar($vars, array_keys($_POST['domain_checkbox']));
-					
-					break;
-				case 'sync':
-					dondominio_mod_domains_sync($vars, array_keys($_POST['domain_checkbox']));
-					
-					break;
-				case 'price':
-					dondominio_mod_domains_updatePrice( $vars, array_keys( $_POST['domain_checkbox'] ));
-					
-					break;
-				case 'owner':
-				case 'tech':
-				case 'admin':
-				case 'billing':
-					if(empty($_POST['ddid'])){
-						echo "
-						<div class='errorbox'>
-							" . $LANG['domains_error_dondominio_id'] . ". <a href='https://docs.dondominio.com/api/#section-5-3' target='_api'>" . $LANG['link_more_info'] . "</a>
-						</div>
-						";
-						
-						break;
-					}
-					
-					dondominio_mod_domains_updateContact($vars, array_keys($_POST['domain_checkbox']), $_POST['form_action'], $_POST['ddid']);
+	if( array_key_exists( 'form_action', $_POST )){
+		if( count( $_POST['domain_checkbox'] )){
+			switch( $_POST['form_action'] ){
+			case 'registrar':
+				dondominio_mod_domains_switchRegistrar( $vars, array_keys( $_POST['domain_checkbox'] ));
+				
+				break;
+			case 'sync':
+				dondominio_mod_domains_sync( $vars, array_keys( $_POST['domain_checkbox'] ));
+				
+				break;
+			case 'price':
+				dondominio_mod_domains_updatePrice( $vars, array_keys( $_POST['domain_checkbox'] ));
+				
+				break;
+			case 'owner':
+			case 'tech':
+			case 'admin':
+			case 'billing':
+				if( empty( $_POST['ddid'] )){
+					echo "
+					<div class='errorbox'>
+						" . $LANG['domains_error_dondominio_id'] . ". <a href='https://docs.dondominio.com/api/#section-5-3' target='_api'>" . $LANG['link_more_info'] . "</a>
+					</div>
+					";
 					
 					break;
 				}
+				
+				dondominio_mod_domains_updateContact( $vars, array_keys( $_POST['domain_checkbox'] ), $_POST['form_action'], $_POST['ddid'] );
+				break;
 			}
 		}else{
 			echo "
@@ -66,22 +63,38 @@ function dondominio_mod_domains_index($vars)
 		}
 	}
 	
-	if(array_key_exists('sync', $_GET) && is_numeric($_GET['sync'])){
-		dondominio_mod_domains_sync($vars, array($_GET['sync']));
+	/*
+	 * Sync single domain information.
+	 */
+	if( array_key_exists( 'sync', $_GET ) && is_numeric( $_GET['sync'] )){
+		dondominio_mod_domains_sync( $vars, array( $_GET['sync'] ));
 	}
 	
-	$registrar = (empty($_POST['registrar'])) ? '%' : $_POST['registrar'];
-	$status = (empty($_POST['status'])) ? '%' : $_POST['status'];
+	$registrar = ( empty($_POST['registrar'] )) ? '%' : $_POST['registrar'];
+	$status = ( empty($_POST['status'] )) ? '%' : $_POST['status'];
 	
 	/*
-	* Pagination.
-	*/
+	 * Pagination.
+	 */
 	$page = 1;
+	$total_pages = 1;
 	
-	$items = dd_get_setting("NumRecordstoDisplay");
+	$items = dd_get_setting( "NumRecordstoDisplay" );
 	
-	if(array_key_exists('page', $_GET) && $_GET['page'] > 1){
+	if( array_key_exists( 'page', $_GET ) && $_GET['page'] > 1 ){
 		$page = $_GET['page'];
+	}
+	
+	if( !array_key_exists( 'domain', $_POST )){
+		$_POST['domain'] = '';
+	}
+	
+	if( !array_key_exists( 'tld', $_POST )){
+		$_POST['tld'] = '';
+	}
+	
+	if( !array_key_exists( 'ddid', $_POST )){
+		$_POST['ddid'] = '';
 	}
 	
 	$total_tlds = full_query("
@@ -92,18 +105,18 @@ function dondominio_mod_domains_index($vars)
 			D.domain LIKE '%" . $_POST['domain'] . "%'
 			AND D.registrar LIKE '" . $registrar . "'
 			AND D.status LIKE '" . $status . "'
-			AND SUBSTRING(D.domain FROM -" . strlen($_POST['tld']) . " FOR " . strlen($_POST['tld']) . ") = '" . $_POST['tld'] . "'
+			AND SUBSTRING(D.domain FROM -" . strlen( $_POST['tld'] ) . " FOR " . strlen( $_POST['tld'] ) . ") = '" . $_POST['tld'] . "'
 	");
 	
-	list($total) = mysql_fetch_row($total_tlds);
+	list( $total ) = mysql_fetch_row( $total_tlds );
 	
-	$total_pages = ceil($total / $items);
+	$total_pages = ceil( $total / $items );
 	
-	if($page > $total_pages){
+	if( $page > $total_pages ){
 		$page = $total_pages;
 	}
 	
-	$start = (($page - 1) * $items);
+	$start = (( $page - 1 ) * $items );
 	/* *** */
 	
 	$domains = full_query("
@@ -133,7 +146,13 @@ function dondominio_mod_domains_index($vars)
 	
 	<p>" . $LANG['info_too_much_requests'] . "</p>
 	
-	<div id='tabs'><ul><li id='tab0' class='tab'><a href='javascript:;'>" . $LANG['filter_title'] . "</a></li></ul></div>
+	<div id='tabs'>
+		<ul class='nav nav-tabs admin-tabs' role='tablist'>
+			<li id='tab0' class='tab'>
+				<a href='javascript:;'>" . $LANG['filter_title'] . "</a>
+			</li>
+		</ul>
+	</div>
 	
 	<div id='tab0box' class='tabbox'>
 		<div id='tab_content'>
@@ -259,13 +278,13 @@ function dondominio_mod_domains_index($vars)
 		";
 	}
 	
-	if(array_key_exists('registrar', $_GET['registrar'])){
+	if( array_key_exists( 'registrar', $_GET )){
 		echo "
 		<input type='hidden' name='registrar' value='" . $_GET['registrar'] . "' />
 		";
 	}
 	
-	if(array_key_exists('status', $_GET['status'])){
+	if( array_key_exists( 'status', $_GET )){
 		echo "
 		<input type='hidden' name='status' value='" . $_GET['status'] . "' />
 		";
@@ -462,19 +481,19 @@ function dondominio_mod_domains_index($vars)
 	
 	$filter_var = '';
 	
-	if(array_key_exists('domain', $_GET)){
+	if( array_key_exists( 'domain', $_GET )){
 		$filter_var .= '&domain=' . $_GET['domain'];
 	}
 	
-	if(array_key_exists('registrar', $_GET['registrar'])){
+	if( array_key_exists( 'registrar', $_GET )){
 		$filter_var .= '&registrar=' . $_GET['registrar'];
 	}
 	
-	if(array_key_exists('status', $_GET['status'])){
+	if( array_key_exists( 'status', $_GET )){
 		$filter_var .= '&status=' . $_GET['status'];
 	}
 	
-	if($page > 1){
+	if( $page > 1 ){
 		echo "
 		<a href='addonmodules.php?module=dondominio&action=domains$filter_var&page=" . ($page - 1) . "'>« " . $LANG['pagination_previous'] . "</a>
 		";
@@ -484,7 +503,7 @@ function dondominio_mod_domains_index($vars)
 	
 	echo "&nbsp;";
 	
-	if($page < $total_pages){
+	if( $page < $total_pages ){
 		echo "
 		<a href='addonmodules.php?module=dondominio&action=domains$filter_var&page=" . ($page + 1) . "'>" . $LANG['pagination_next'] . " »</a>
 		";
