@@ -24,7 +24,7 @@ class DonDominioAPIClientPostCurl implements DonDominioAPIClientInterface
 	
 	protected $userAgent = array(
 		'ClientPlatform' => 'PHP',
-		'ClientVersion' => '1.0',
+		'ClientVersion' => '1.3',
 		'OperatingSystem' => '',
 		'OperatingSystemVersion' => ''
 	);
@@ -126,6 +126,20 @@ class DonDominioAPIClientPostCurl implements DonDominioAPIClientInterface
 		
 		return $response;
 	}
+	
+	/**
+-	 * Add an user agent to the array.
+-	 *
+-	 * @param string $value Name of the User Agent
+-	 * @param string $version Version
+-	 * @return boolean
+-	 */
+-	public function addUserAgent( $value, $version )
+-	{
+-		$this->userAgent[ $value ] = $version;
+-		
+-		return true;
+-	}
 	
 	/**
 	 * Build the user agent string from the array.
