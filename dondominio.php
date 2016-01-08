@@ -32,7 +32,7 @@ function dondominio_config()
 	$configarray = array(
 		"name" => "DonDominio Manager Addon",
 		"description" => "TLD & Bulk Domain management from DonDominio.",
-		"version" => "1.2",
+		"version" => dd_getVersion(),
 		"author" => "DonDominio",
 		"language" => "english",
 		"fields" => array()
