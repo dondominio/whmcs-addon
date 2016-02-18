@@ -109,15 +109,9 @@ function dondominio_activate()
 			`renew_increase` DECIMAL(10,2) NOT NULL DEFAULT 0,
 			`renew_increase_type` VARCHAR(16) NOT NULL DEFAULT 'fixed',
 			`transfer_increase` DECIMAL(10,2) NOT NULL DEFAULT 0,
-			`transfer_increase_type` VARCHAR(16) NOT NULL DEFAULT 'fixed'
+			`transfer_increase_type` VARCHAR(16) NOT NULL DEFAULT 'fixed',
+			UNIQUE INDEX `unique_tld` (`tld`)
 		)
-	"))){
-		return $result;
-	}
-	
-	//Adding unique index to mod_dondominio_tld_settings
-	if( is_array( $result = dd_do_query("
-		CREATE UNIQUE INDEX `unique_tld` ON `mod_dondominio_tld_settings`(`tld`)
 	"))){
 		return $result;
 	}
