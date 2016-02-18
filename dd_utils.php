@@ -47,15 +47,7 @@ function dd_get($key)
  */
 function dd_set($key, $value)
 {
-	$exists = dd_get( $key );
-	
-	if( empty( $exists )){
-		$create = full_query( "INSERT INTO `mod_dondominio_settings` (`key`, `value`) VALUES ( '$key', '$value')" );
-		
-		return $create;
-	}
-	
-	$update = full_query("UPDATE `mod_dondominio_settings` SET `value`='$value' WHERE `key`='$key'");
+	$update = full_query( "REPLACE INTO `mod_dondominio_settings` (`key`, `value`) VALUES ( '$key', '$value')" );
 	
 	return $update;
 }
