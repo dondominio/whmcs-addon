@@ -27,9 +27,9 @@ function dondominio_mod_settings_index($vars)
 	$tab2 = '';
 	
 	$username = dd_get('api_username');
-	$password = dd_get('api_password');
+	$password = base64_decode( dd_get( 'api_password' ));
 	
-	if(empty($username) || empty($password)){
+	if( strlen( $username ) == 0 || strlen( $password ) == 0 ){
 		$initial_sync = true;
 	}
 	
@@ -40,9 +40,11 @@ function dondominio_mod_settings_index($vars)
 	
 	if(count($_POST)){
 		switch($_POST['tab']){
+		
+		// API settings
 		case 0:
-			dd_set('api_username', (string) $_POST['api_username']);
-			dd_set('api_password', (string) $_POST['api_password']);
+			dd_set( 'api_username',				(string) $_POST['api_username'] );
+			dd_set( 'api_password',				(string) base64_encode( $_POST['api_password'] ));
 			
 			if($initial_sync){
 				dd_initial_sync();
@@ -50,27 +52,28 @@ function dondominio_mod_settings_index($vars)
 			
 			$tab0 = 'tabselected';
 			break;
-		case 1:
-			//Price settings
-			dd_set("prices_autoupdate", ($_POST['prices_update_cron'] == 'on') ? '1' : '0');
-			dd_set("register_increase", floatval($_POST['prices_register_add']));
-			dd_set("transfer_increase", floatval($_POST['prices_transfer_add']));
-			dd_set("renew_increase", floatval($_POST['prices_renew_add']));
 			
-			dd_set("register_increase_type", $_POST['prices_register_type']);
-			dd_set("transfer_increase_type", $_POST['prices_transfer_type']);
-			dd_set("renew_increase_type", $_POST['prices_renew_type']);
+		// Price settings
+		case 1:
+			dd_set( "prices_autoupdate",		( $_POST['prices_update_cron'] == 'on' ) ? '1' : '0' );
+			dd_set( "register_increase",		floatval($_POST['prices_register_add'] ));
+			dd_set( "transfer_increase",		floatval($_POST['prices_transfer_add'] ));
+			dd_set( "renew_increase",			floatval($_POST['prices_renew_add'] ));
+			
+			dd_set( "register_increase_type",	$_POST['prices_register_type'] );
+			dd_set( "transfer_increase_type",	$_POST['prices_transfer_type'] );
+			dd_set( "renew_increase_type",		$_POST['prices_renew_type'] );
 			
 			$tab1 = 'tabselected';
 			break;
 			
+		// Notifications settings
 		case 2:
-			//Notifications settings
-			dd_set("notifications_enabled", ($_POST['notifications_enabled'] == 'on') ? '1' : '0');
-			dd_set("notifications_email", $_POST['notifications_email']);
-			dd_set("notifications_new_tlds", ($_POST['notifications_new_tld'] == 'on') ? '1' : '0');
-			dd_set("notifications_prices", ($_POST['notifications_prices'] == 'on') ? '1' : '0');
-			dd_set("watchlist_mode", $_POST['watchlist']);
+			dd_set( "notifications_enabled",	( $_POST['notifications_enabled'] == 'on' ) ? '1' : '0' );
+			dd_set( "notifications_email",		$_POST['notifications_email'] );
+			dd_set( "notifications_new_tlds",	( $_POST['notifications_new_tld'] == 'on' ) ? '1' : '0' );
+			dd_set( "notifications_prices",		( $_POST['notifications_prices'] == 'on' ) ? '1' : '0' );
+			dd_set( "watchlist_mode",			$_POST['watchlist'] );
 			
 			full_query("DELETE FROM mod_dondominio_watchlist");
 			
@@ -85,13 +88,30 @@ function dondominio_mod_settings_index($vars)
 			$tab2 = 'tabselected';
 			break;
 			
+		// Cache settings
 		case 3:
-			//Cache settings
 			if($_POST['cache_rebuild'] == 'on'){
 				dd_initial_sync();
 			}
 			
 			$tab3 = 'tabselected';
+			break;
+			
+		// Domain Suggestions
+		case 4:
+			dd_set( "suggests_enabled",			( $_POST['suggests_enabled'] == 'on' ) ? '1' : '0' );
+			dd_set( "suggests_language",		$_POST['language'] );
+			dd_set( 'suggests_tlds',			implode( ',', $_POST['tlds'] ));
+			
+			$tab4 = 'tabselected';
+			break;
+			
+		// Whois Proxy
+		case 5:
+			dd_set( 'whois_domain',				trim( $settings['domain'] ));
+			dd_set( 'whois_ip',					trim( $settings['ip'] ));
+			
+			$tab5 = 'tabselected';
 			break;
 		}
 		
@@ -105,9 +125,9 @@ function dondominio_mod_settings_index($vars)
 	}
 	
 	$username = dd_get('api_username');
-	$password = dd_get('api_password');
+	$password = base64_decode( dd_get( 'api_password' ));
 	
-	if(empty($username) || empty($password)){
+	if( strlen( $username ) == 0 || strlen( $password ) == 0 ){
 		echo "
 			<div class='infobox'>
 				" . $LANG['settings_api_required'] . "
@@ -170,6 +190,14 @@ function dondominio_mod_settings_index($vars)
 			<li id='tab3' class='tab $tab3'>
 				<a href='javascript:;'>" . $LANG['settings_cache_title'] . "</a>
 			</li>
+			
+			<li id='tab4' class='tab $tab4'>
+				<a href='javascript:;'>" . $LANG['settings_suggests_title'] . "</a>
+			</li>
+			
+			<li id='tab5' class='tab $tab5'>
+				<a href='javascript:;'>" . $LANG['settings_whois_title'] . "</a>
+			</li>
 		</ul>
 	</div>
 	
@@ -196,7 +224,7 @@ function dondominio_mod_settings_index($vars)
 							</td>
 							
 							<td class='fieldarea'>
-								<input type='text' name='api_password' required='required' value='" . dd_get("api_password") . "' />
+								<input type='text' name='api_password' required='required' value='" . base64_decode( dd_get( "api_password" )) . "' />
 								" . $LANG['settings_api_password_info'] . "
 							</td>
 						</tr>
@@ -376,6 +404,21 @@ function dondominio_mod_settings_index($vars)
 		
 		list($last_update, $total_tlds) = mysql_fetch_row($q_cache_info);
 		
+		// Choose selected language
+		$lang_selected[ dd_get( 'suggests_language' ) ] = "selected=\"selected\"";
+		
+		// Choose selected TLDs
+		$tlds = explode( ',', dd_get( 'suggests_tlds' ));
+		
+		foreach( $tlds as $selected_tld ){
+			$tlds_selected[ $selected_tld ] = "selected=\"selected\"";
+		}
+		
+		//Suggestions enabled
+		if( dd_get( "suggests_enabled" ) == "1" ){
+			$suggests_enabled = "checked=\"checked\"";
+		}
+		
 		echo "
 		<!-- Notifications -->
 		<div id='tab3box' class='tabbox'>
@@ -410,6 +453,92 @@ function dondominio_mod_settings_index($vars)
 							<td class='fieldarea'>
 								<input type='checkbox' name='cache_rebuild' />
 								" . $LANG['settings_cache_rebuild_info'] . "
+							</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
+		
+		<div id='tab4box' class='tabbox'>
+			<div id='tab_content'>
+				<table class=\"form\" width=\"100%\" border=\"0\" cellspacing=\"2\" cellpadding=\"3\">
+					<tbody>	
+						<tr>
+							<td class='fieldlabel'>
+								" . $LANG['settings_suggests_enable'] . "
+							</td>
+							
+							<td class='fieldarea'>
+								<input type='checkbox' name='suggests_enabled' $suggests_enabled />
+							</td>
+						</tr>
+						
+						<tr>
+							<td class=\"fieldlabel\">
+								" . $LANG['suggests_lang'] . "
+							</td>
+							
+							<td class=\"fieldarea\">
+								<select name=\"language\" required=\"required\">
+									<option value=\"en\" " . $lang_selected['en'] . ">" . $LANG['lang_en'] . "</option>
+									<option value=\"es\" " . $lang_selected['es'] . ">" . $LANG['lang_es'] . "</option>
+									<option value=\"zh\" " . $lang_selected['zh'] . ">" . $LANG['lang_zh'] . "</option>
+									<option value=\"fr\" " . $lang_selected['fr'] . ">" . $LANG['lang_fr'] . "</option>
+									<option value=\"de\" " . $lang_selected['de'] . ">" . $LANG['lang_de'] . "</option>
+									<option value=\"kr\" " . $lang_selected['kr'] . ">" . $LANG['lang_kr'] . "</option>
+									<option value=\"pt\" " . $lang_selected['pt'] . ">" . $LANG['lang_pt'] . "</option>
+									<option value=\"tr\" " . $lang_selected['tr'] . ">" . $LANG['lang_tr'] . "</option>
+								</select>
+							</td>
+						</tr>
+						
+						<tr>
+							<td class=\"fieldlabel\">
+								" . $LANG['suggests_tlds'] . "
+							</td>
+							
+							<td class=\"fieldarea\">
+								<select multiple=\"multiple\" name=\"tlds[]\" required=\"required\">
+									<option value=\"com\" " . $tlds_selected['com'] . ">.com</option>
+									<option value=\"net\" " . $tlds_selected['net'] . ">.net</option>
+									<option value=\"tv\" " . $tlds_selected['tv'] . ">.tv</option>
+									<option value=\"cc\" " . $tlds_selected['cc'] . ">.cc</option>
+									<option value=\"es\" " . $tlds_selected['es'] . ">.es</option>
+									<option value=\"org\" " . $tlds_selected['org'] . ">.org</option>
+									<option value=\"info\" " . $tlds_selected['info'] . ">.info</option>
+									<option value=\"biz\" " . $tlds_selected['biz'] . ">.biz</option>
+									<option value=\"eu\" " . $tlds_selected['eu'] . ">.eu</option>
+								</select>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
+		
+		<div id='tab5box' class='tabbox'>
+			<div id='tab_content'>
+				<table class='form' width='100%' border='0' cellspacing='2' cellpadding='3'>
+					<tbody>
+						<tr>
+							<td class='fieldlabel' width='200'>
+								" . $LANG['settings_whois_domain'] . "
+							</td>
+							
+							<td class='fieldarea'>
+								<input type='text' name='domain' value='" . dd_get( 'whois_domain' ) . "' size='35'><br />" . $lang['config_domain_info'] . "
+							</td>
+						</tr>
+						
+						<tr>
+							<td class='fieldlabel' width='200'>
+								" . $LANG['settings_whois_ip'] . "
+							</td>
+							
+							<td class='fieldarea'>
+								<input type='text' name='ip' value='" . dd_get( 'whois_ip' ) . "' size='35'><br />" . $lang['config_ip_info'] . "
+								<span class='help'>" . $LANG['settings_whois_ip_info'] . "</span>
 							</td>
 						</tr>
 					</tbody>

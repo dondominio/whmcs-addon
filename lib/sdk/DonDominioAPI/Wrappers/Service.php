@@ -706,7 +706,7 @@ class DonDominioAPI_Service extends DonDominioAPIModule
 		
 		$map = array(
 			array( 'name' => 'serviceName',		'type' => 'string',		'required' => true ),
-			array( 'name' => 'entityId',		'type' => 'string',		'required' => true ),
+			array( 'name' => 'entityID',		'type' => 'string',		'required' => true ),
 			array( 'name' => 'ftpPath',			'type' => 'string',		'required' => true )
 		);
 		
