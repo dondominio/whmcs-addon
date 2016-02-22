@@ -9,8 +9,48 @@
  * @license CC BY-ND 3.0 <http://creativecommons.org/licenses/by-nd/3.0/>
  */
  
-require_once("lib/sdk/DonDominioAPI.php");
-require_once("dd_utils.php");
+require_once( "lib/sdk/DonDominioAPI.php" );
+require_once( "dd_utils.php" );
+
+add_hook( 'ClientAreaFooterOutput', 1, function( $vars )
+{
+	if( dd_get( 'suggests_enabled' ) != '1' ){
+		return false;
+	}
+	
+	$current_language = $vars['language'];
+	
+	$lang_file = __DIR__ . '/lang/' . $current_language . '.php';
+	
+	if( file_exists( $lang_file )){
+		include( $lang_file );
+	}else{
+		require( __DIR__ . '/lang/english.php' );
+	}
+	
+	$LANG = $_ADDONLANG;
+	
+	$currency = ( array_key_exists( 'currency', $_GET )) ? $_GET['currency'] : '1';
+	
+	$html = "
+	<input type=\"hidden\" name=\"currency\" id=\"currency\" value=\"" . $currency . "\" />
+	
+	<script id=\"suggestions_template\" type=\"text/html\">
+	";
+	
+	/*
+	 * Modify the `template.html` file to match your templates as you need.
+	 */
+	$html .= include( __DIR__ . '/template.php' );
+	
+	$html .= "
+    </script>
+	
+	<script src='modules/addons/dondominio/suggests/suggests.js'></script>
+	";
+	
+	return $html;
+});
 
 /**
  * Hook to sync TLDs and prices.

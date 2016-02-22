@@ -8,7 +8,7 @@
  * @package DonDominioWHMCSAddon
  * @license CC BY-ND 3.0 <http://creativecommons.org/licenses/by-nd/3.0/>
  */
- 
+
 $_ADDONLANG = array(
 	//Buttons
 	'btn_edit' => 'Editar',
@@ -22,10 +22,6 @@ $_ADDONLANG = array(
 	'btn_transfer' => 'Transferir a DonDominio',
 	
 	//Info
-	'info_enabled' => 'El Addon DonDominio Manager está ahora listo. ¡Que lo disfrutes!',
-	'info_disabled' => 'El Addon DonDominio Manager se ha desactivado correctamente.',
-	'info_error_enabling' => 'Se ha producido un error activando el Addon DonDominio Manager. Por favor, contacta con soporte.',
-	'info_error_disabling' => 'Se ha producido un error desactivando el Addon DonDominio Manager. Por favor, contacta con soporte.',
 	'info_with_selected' => 'Con los seleccionados:',
 	'info_no_results' => 'No hay registros',
 	'info_errors' => 'Se ha producido un error:',
@@ -40,6 +36,8 @@ $_ADDONLANG = array(
 	'menu_domains' => 'Gestión de dominios',
 	'menu_import' => 'Importar dominios',
 	'menu_transfer' => 'Transferir dominios',
+	'menu_suggests' => 'Sugerencias de Dominios',
+	'menu_whois' => 'Proxy Whois',
 	'menu_settings' => 'Configuración',
 	'menu_help' => 'Ayuda y documentación',
 	
@@ -182,11 +180,84 @@ $_ADDONLANG = array(
 	'settings_cache_total' => 'TLDs en caché',
 	'settings_cache_rebuild' => 'Reconstruir la caché',
 	'settings_cache_rebuild_info' => 'Marca esta casilla y pulsa "Guardar cambios" para reconstruir la caché de TLDs',
+	'settings_suggests_title' => 'Sugerencias de dominios',
+	'settings_suggests_enable' => 'Activar las sugerencias de dominios',
+	'settings_suggests_language' => 'Idioma para las sugerencias',
+	'settings_suggests_tlds' => 'Generar sugerencias para estos TLDs:',
+	'settings_whois_title' => 'Proxy de Whois',
+	'settings_whois_domain' => 'Dominio de WHMCS',
+	'settings_whois_ip' => 'Dirección IP permitida',
+	'settings_whois_ip_info' => 'Introduce más de una dirección IP separándolas con ;',
 	
 	'tld_settings_title' => 'Configuración de TLD individual',
 	'tld_settings_description' => 'Ajusta el aumento de precio de un TLD de forma independiente',
 	'tld_settings_no_update' => 'No actualizar de forma automática el precio de este TLD',
-	'tld_settings_enabled' => 'Activar configuración individual'
+	'tld_settings_enabled' => 'Activar configuración individual',
+	
+	// Suggests
+	'suggests_title' => 'Sugerencias de Dominios',
+	'suggests_lang' => 'Idioma',
+	'suggests_tlds' => 'TLDs',
+	'suggests_info_saved' => 'La configuración se ha guardado',
+	'lang_en' => 'Inglés',
+	'lang_es' => 'Español',
+	'lang_zh' => 'Chino',
+	'lang_fr' => 'Francés',
+	'lang_de' => 'Alemán',
+	'lang_kr' => 'Coreano',
+	'lang_pt' => 'Portugués',
+	'lang_tr' => 'Turco',
+	
+	// Suggests TPL
+	'tpl_you_may_also_like' => 'Quizás también te guste...',
+	'tpl_go_to_checkout' => 'Proceder a la compra',
+	'tpl_search_results' => 'Resultados de la búsqueda',
+	'tpl_add_to_cart' => 'Añadir a la cesta',
+	'tpl_additional_pricing_options_for' => 'Opciones de precio adicionales para',
+	'tpl_years' => 'Años',
+	'tpl_available' => 'Disponible',
+	
+	/*
+	 * CONFIG
+	 */
+	'config_settings' => 'Cambiar configuración',
+	'config_username' => 'Nombre de usuario de API',
+	'config_password' => 'Contraseña de API',
+	'config_domain' => 'Dominio de acceso',
+	'config_ip' => 'IPs permitidas',
+	'config_switch' => 'Cambiar a DonDominio',
+	
+	/*
+	 * NEW TLD
+	 */
+	'new_tld' => 'Añadir un nuevo TLD',
+	'new_tld_tld' => 'TLD',
+	'new_tld_add' => 'Añadir TLD',
+	
+	/*
+	 * INFO
+	 */
+	'info_path_whois' => 'Tu fichero de Whois está aquí',
+	'info_path_moreinfo' => 'Documentación',
+	
+	/*
+	 * IMPORT/EXPORT
+	 */	
+	'servers_export' => 'Exportar lista de servidores',
+	'servers_import' => 'Importar lista de servidores',
+	'import_btn' => 'Importar archivo',
+	
+	/*
+	 * MESSAGES
+	 */
+	'error_servers_no_writable' => 'La lista de servidores no puede ser escrita por el servidor. Cambia sus permisos o modifícala a mano.',
+	'new-tld-error-permissions' => 'No se puede acceder al fichero, comprueba los permisos o edita el fichero directamente',
+	'new-tld-ok' => 'TLD modificado correctamente',
+	'new-tld-error' => 'El campo TLD está vacío',
+	'import-ok' => 'Fichero de servidores Whois importado correctamente',
+	'import-error' => 'El fichero proporcionado no es válido o no tienes permisos suficientes para modificar el fichero',
+	'settings-ok' => 'La configuración se ha modificado correctamente',
+	'settings-error' => 'No se ha podido modificar la configuración'
 );
 
 ?>

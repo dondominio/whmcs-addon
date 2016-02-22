@@ -36,6 +36,8 @@ $_ADDONLANG = array(
 	'menu_domains' => 'Manage domains',
 	'menu_import' => 'Import domains',
 	'menu_transfer' => 'Transfer domains',
+	'menu_suggests' => 'Domain suggestions',
+	'menu_whois' => 'Whois Proxy',
 	'menu_settings' => 'Settings',
 	'menu_help' => 'Help & Documentation',
 	
@@ -178,11 +180,99 @@ $_ADDONLANG = array(
 	'settings_cache_total' => 'TLDs in cache',
 	'settings_cache_rebuild' => 'Rebuild cache',
 	'settings_cache_rebuild_info' => 'Check this box and click on "Save changes" to rebuild the TLD cache',
+	'settings_suggests_title' => 'Domain Suggestions',
+	'settings_suggests_enable' => 'Enable Domain Suggestions',
+	'settings_suggests_language' => 'Language for suggestions',
+	'settings_suggests_tlds' => 'Generate suggestions for these TLDs:',
+	'settings_whois_title' => 'Whois Proxy',
+	'settings_whois_domain' => 'WHMCS Domain',
+	'settings_whois_ip' => 'Allowed IP address',
+	'settings_whois_ip_info' => 'Enter more than one IP address by separating them with ;',
 	
 	'tld_settings_title' => 'Individual TLD settings',
 	'tld_settings_description' => 'Adjust the price increase for each TLD individually',
 	'tld_settings_no_update' => 'Do not update automatically the prices for this TLD',
-	'tld_settings_enabled' => 'Enable these settings'
+	'tld_settings_enabled' => 'Enable these settings',
+	
+	// Suggests
+	'suggests_title' => 'Domain suggestions',
+	'suggests_lang' => 'Language',
+	'suggests_tlds' => 'TLDs',
+	'suggests_info_saved' => 'Settings have been saved',
+	'lang_en' => 'English',
+	'lang_es' => 'Spanish',
+	'lang_zh' => 'Chinese',
+	'lang_fr' => 'French',
+	'lang_de' => 'German',
+	'lang_kr' => 'Korean',
+	'lang_pt' => 'Portuguese',
+	'lang_tr' => 'Turkish',
+	'suggests_is_enabled' => 'Domain suggestions module is',
+	'suggests_enabled' => 'Enabled',
+	'suggests_disabled' => 'Disabled',
+	'suggests_change_settings_a' => 'You may enable or disable and configure the Domain Suggestions on the',
+	'suggests_change_settings_b' => 'Settings',
+	'suggests_change_settings_c' >= 'module',
+	'suggests_integration_a' => 'Follow the',
+	'suggests_integration_b' => 'Integration Instructions',
+	'suggests_integration_c' => 'to enable Domain Suggestions on your WHMCS frontend.',
+	
+	// Suggests TPL
+	'tpl_you_may_also_like' => 'You may also like...',
+	'tpl_go_to_checkout' => 'Go to checkout',
+	'tpl_search_results' => 'Search results',
+	'tpl_add_to_cart' => 'Add to Cart',
+	'tpl_additional_pricing_options_for' => 'Additional pricing options for',
+	'tpl_years' => 'Years',
+	'tpl_available' => 'Available',
+	
+	/*
+	 * CONFIG
+	 */
+	'config_settings' => 'Change settings',
+	'config_username' => 'API Username',
+	'config_password' => 'API Password',
+	'config_domain' => 'Access domain',
+	'config_domain_info' => 'This is the domain name where your WHMCS frontend is hosted, con http:// o https://.',
+	'config_ip' => 'Allowed IPs',
+	'config_ip_info' => 'Only requests coming from these IPs will be allowed to access the Whois proxy. Separate IPs with ;.',
+	'config_save' => 'Save settings',
+	'config_cancel' => 'Cancel',
+	'config_save_success' => 'Settings successfully saved',
+	'config_save_error' => 'Settings couldn\'t be saved. Maybe you have a permissions problem?',
+	'config_switch' => 'Switch to MrDomain/DonDominio',
+	
+	/*
+	 * NEW TLD
+	 */
+	'new_tld' => 'Add a new TLD',
+	'new_tld_tld' => 'TLD',
+	'new_tld_add' => 'Add TLD',
+	
+	/*
+	 * INFO
+	 */
+	'info_path_whois' => 'Yor Whois servers file is located here',
+	'info_path_moreinfo' => 'Documentation',
+	
+	/*
+	 * IMPORT/EXPORT
+	 */	
+	'servers_export' => 'Export server list',
+	'servers_import' => 'Import server list',
+	'import_btn' => 'Import file',
+	
+	/*
+	 * MESSAGES
+	 */
+	'error_servers_no_writable' => 'Whois servers file is not writable by the server. Make it writable or edit it directly.',
+	'new-tld-error-permissions' => 'Couldn\'t access file, check permissions or edit the file directly',
+	'new-tld-ok' => 'TLD updated successfully',
+	'new-tld-error' => 'Empty TLD provided',
+	'import-ok' => 'Whois Servers file imported correctly',
+	'import-error' => 'The provided Whois Servers file is invalid or you don\'t have enough permissions to updated the file',
+	'settings-ok' => 'Settings modified successfully',
+	'settings-error' => 'Could not save settings'
 );
 
 ?>

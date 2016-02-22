@@ -30,8 +30,8 @@ if(!defined( "WHMCS" )){
 function dondominio_config()
 {
 	$configarray = array(
-		"name" => "DonDominio Manager Addon",
-		"description" => "TLD & Bulk Domain management from DonDominio.",
+		"name" => "DonDominio Manager",
+		"description" => "Advanced features from DonDominio.",
 		"version" => dd_getVersion(),
 		"author" => "DonDominio",
 		"language" => "english",
@@ -359,12 +359,12 @@ function dondominio_output( $vars )
 	$version = $vars['version'];
 	$LANG = $vars['_lang'];
 	
-	if(!array_key_exists( 'action', $_GET )){
-		$_GET['action'] = 'tlds';
+	if(!array_key_exists( 'action', $_REQUEST )){
+		$_REQUEST['action'] = 'tlds';
 	}
 	
-	if(!array_key_exists( 'option', $_GET )){
-		$_GET['option'] = 'index';
+	if(!array_key_exists( 'option', $_REQUEST )){
+		$_REQUEST['option'] = 'index';
 	}
 	
 	/*
@@ -373,25 +373,25 @@ function dondominio_output( $vars )
 	$username = dd_get( 'api_username' );
 	$password = dd_get( 'api_password' );
 	
-	if( empty( $username ) || empty( $password )){
+	if( strlen( $username ) == 0 || strlen( $password ) == 0 ){
 		$_GET['action'] = 'settings';
 		$_GET['option'] = 'index';
 	}
 	/* * * */
 	
-	$action = 'dondominio_mod_' . $_GET['action'] . '_' . $_GET['option'];
+	$action = 'dondominio_mod_' . $_REQUEST['action'] . '_' . $_REQUEST['option'];
 	
-	$path = dirname( __FILE__ ) . "/dondominio_mod_" . $_GET['action'] . ".php";
+	$path = dirname( __FILE__ ) . "/dondominio_mod_" . $_REQUEST['action'] . ".php";
 	
 	if( !file_exists( $path )){
-		echo "<h3>Module not found: " . $_GET['action'] . "</h3>";
+		echo "<h3>Module not found: " . $_REQUEST['action'] . "</h3>";
 		return false;
 	}
 	
 	require_once $path;
 	
 	if( !is_callable( $action )){
-		echo "<h3>Action not found: " . $_GET['action'] . '/' . $_GET['option'] . "</h3>";
+		echo "<h3>Action not found: " . $_REQUEST['action'] . '/' . $_REQUEST['option'] . "</h3>";
 		return false;
 	}
 	
@@ -423,6 +423,8 @@ function dondominio_sidebar( $vars )
 			<li><a href="' . $modulelink . '&action=domains">' . $LANG['menu_domains'] . '</a></li>
 			<li><a href="' . $modulelink . '&action=transfer">' . $LANG['menu_transfer'] . '</a></li>
 			<li><a href="' . $modulelink . '&action=import">' . $LANG['menu_import'] . '</a></li>
+			<li><a href="' . $modulelink . '&action=suggests">' . $LANG['menu_suggests'] . '</a></li>
+			<li><a href="' . $modulelink . '&action=whois">' . $LANG['menu_whois'] . '</a></li>
 			<li><a href="' . $modulelink . '&action=settings">' . $LANG['menu_settings'] . '</a></li>
 			<li class="divider">&nbsp;</li>
 			<li><a href="https://docs.dondominio.com/" target="_api">' . $LANG['menu_help'] . '</a></li>

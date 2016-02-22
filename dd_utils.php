@@ -119,7 +119,7 @@ function dd_init()
 {
 	$options = array(
 		'apiuser' => dd_get('api_username'),
-		'apipasswd' => dd_get('api_password'),
+		'apipasswd' => base64_decode( dd_get( 'api_password' )),
 		'autoValidate' => true,
 		'versionCheck' => true,
 		'response' => array(
