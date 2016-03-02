@@ -213,7 +213,7 @@ function dondominio_mod_settings_index($vars)
 							</td>
 							
 							<td class='fieldarea'>
-								<input type='text' name='api_username' required='required' value='" . dd_get("api_username") . "' />
+								<input type='text' name='api_username' value='" . dd_get("api_username") . "' />
 								" . $LANG['settings_api_username_info'] . "
 							</td>
 						</tr>
@@ -224,7 +224,7 @@ function dondominio_mod_settings_index($vars)
 							</td>
 							
 							<td class='fieldarea'>
-								<input type='text' name='api_password' required='required' value='" . base64_decode( dd_get( "api_password" )) . "' />
+								<input type='text' name='api_password' value='" . base64_decode( dd_get( "api_password" )) . "' />
 								" . $LANG['settings_api_password_info'] . "
 							</td>
 						</tr>
@@ -480,7 +480,7 @@ function dondominio_mod_settings_index($vars)
 							</td>
 							
 							<td class=\"fieldarea\">
-								<select name=\"language\" required=\"required\">
+								<select name=\"language\">
 									<option value=\"en\" " . $lang_selected['en'] . ">" . $LANG['lang_en'] . "</option>
 									<option value=\"es\" " . $lang_selected['es'] . ">" . $LANG['lang_es'] . "</option>
 									<option value=\"zh\" " . $lang_selected['zh'] . ">" . $LANG['lang_zh'] . "</option>
@@ -499,7 +499,7 @@ function dondominio_mod_settings_index($vars)
 							</td>
 							
 							<td class=\"fieldarea\">
-								<select multiple=\"multiple\" name=\"tlds[]\" required=\"required\">
+								<select multiple=\"multiple\" name=\"tlds[]\">
 									<option value=\"com\" " . $tlds_selected['com'] . ">.com</option>
 									<option value=\"net\" " . $tlds_selected['net'] . ">.net</option>
 									<option value=\"tv\" " . $tlds_selected['tv'] . ">.tv</option>
