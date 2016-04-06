@@ -108,8 +108,8 @@ function dondominio_mod_settings_index($vars)
 			
 		// Whois Proxy
 		case 5:
-			dd_set( 'whois_domain',				trim( $settings['domain'] ));
-			dd_set( 'whois_ip',					trim( $settings['ip'] ));
+			dd_set( 'whois_domain',				trim( $_POST['domain'] ));
+			dd_set( 'whois_ip',					trim( $_POST['ip'] ));
 			
 			$tab5 = 'tabselected';
 			break;
