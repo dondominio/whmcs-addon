@@ -288,6 +288,53 @@ class DonDominioAPI_Domain extends DonDominioAPIModule
 	}
 	
 	/**
+	 * Restart a transfer already initiated.
+	 * Accepts an associative array with the following parameters:
+	 *
+	 * ! = required
+	 * - authcode		string		A new authcode to replace the old one
+	 *
+	 * @link https://dev.dondominio.com/api/docs/api/#transfer-restart-domain-transferrestart
+	 *
+	 * @param string $domain Domain name to update
+	 * @param string $updateType Type of information to modify (contact, nameservers, transferBlock, block, whoisPrivacy)
+	 * @param array $args Associative array of parameters
+	 *
+	 * @return DonDominioAPIResponse
+	 */
+	protected function transferRestart( $domain, array $args = array())
+	{
+		$_params = array_merge(
+			$this->getDomainOrDomainID( $domain ),
+			$args
+		);
+		
+		$map = array(
+			array(
+				'name'		=> 'domain',
+				'type'		=> 'domain',
+				'required'	=> true,
+				'bypass'	=> 'domainID'
+			),
+			
+			array(
+				'name'		=> 'domainID',
+				'type'		=> 'string',
+				'required'	=> true,
+				'bypass'	=> 'domain'
+			),
+			
+			array(
+				'name'		=> 'authcode',
+				'type'		=> 'string',
+				'required'	=> false
+			)
+		);
+		
+		return $this->execute( 'domain/transferrestart/', $_params, $map );
+	}
+	
+	/**
 	 * Update domain parameters, such as contacts, nameservers, and more.
 	 * Accepts an associative array with the following parameters:
 	 *
@@ -399,7 +446,8 @@ class DonDominioAPI_Domain extends DonDominioAPIModule
 			array( 'name' => 'transferBlock',				'type' => 'boolean',	'required' => false ),
 			array( 'name' => 'block',						'type' => 'boolean',	'required' => false ),
 			array( 'name' => 'whoisPrivacy',				'type' => 'boolean',	'required' => false ),
-			array( 'name' => 'renewalMode',					'type' => 'list',		'required' => false,	'list' => array( 'autorenew', 'manual', 'letexpire' ))
+			array( 'name' => 'renewalMode',					'type' => 'list',		'required' => false,	'list' => array( 'autorenew', 'manual', 'letexpire' )),
+			array( 'name' => 'tag',							'type' => 'string',		'required' => false )
 		);
 		
 		return $this->execute( 'domain/update/', $_params, $map );
@@ -546,22 +594,22 @@ class DonDominioAPI_Domain extends DonDominioAPIModule
 	 *
 	 * @return DonDominioAPIResponse
 	 */
-	protected function glueRecordCreate($domain, array $args = array())
+	protected function glueRecordCreate( $domain, array $args = array())
 	{
 		$_params = array_merge(
-			$this->getDomainOrDomainID($domain),
+			$this->getDomainOrDomainID( $domain ),
 			$args
 		);
 		
 		$map = array(
-			array('name'=>'domain', 'type'=>'domain', 'required'=>true, 'bypass'=>'domainID'),
-			array('name'=>'domainID', 'type'=>'string', 'required'=>true, 'bypass'=>'domain'),
-			array('name'=>'name', 'type'=>'name', 'required'=>true),
-			array('name'=>'ipv4', 'type'=>'ipv4', 'required'=>true),
-			array('name'=>'ipv6', 'type'=>'ipv6', 'required'=>false)
+			array( 'name'=>'domain',	'type'=>'domain',	'required'=>true,	'bypass'=>'domainID' ),
+			array( 'name'=>'domainID',	'type'=>'string',	'required'=>true,	'bypass'=>'domain' ),
+			array( 'name'=>'name',		'type'=>'string',	'required'=>true ),
+			array( 'name'=>'ipv4',		'type'=>'ipv4',		'required'=>true ),
+			array( 'name'=>'ipv6',		'type'=>'ipv6',		'required'=>false )
 		);
 		
-		return $this->execute('domain/gluerecordcreate/', $_params, $map);
+		return $this->execute( 'domain/gluerecordcreate/', $_params, $map );
 	}
 	
 	/**
@@ -590,7 +638,7 @@ class DonDominioAPI_Domain extends DonDominioAPIModule
 		$map = array(
 			array('name'=>'domain', 'type'=>'domain', 'required'=>true, 'bypass'=>'domainID'),
 			array('name'=>'domainID', 'type'=>'string', 'required'=>true, 'bypass'=>'domain'),
-			array('name'=>'name', 'type'=>'name', 'required'=>true),
+			array('name'=>'name', 'type'=>'string', 'required'=>true),
 			array('name'=>'ipv4', 'type'=>'ipv4', 'required'=>true),
 			array('name'=>'ipv6', 'type'=>'ipv6', 'required'=>false)
 		);
@@ -618,7 +666,7 @@ class DonDominioAPI_Domain extends DonDominioAPIModule
 		$map = array(
 			array('name'=>'domain', 'type'=>'domain', 'required'=>true, 'bypass'=>'domainID'),
 			array('name'=>'domainID', 'type'=>'string', 'required'=>true, 'bypass'=>'domain'),
-			array('name'=>'name', 'type'=>'name', 'required'=>true)
+			array('name'=>'name', 'type'=>'string', 'required'=>true)
 		);
 		
 		return $this->execute('domain/gluerecorddelete/', $_params, $map);
@@ -647,12 +695,17 @@ class DonDominioAPI_Domain extends DonDominioAPIModule
 		$_params = $args;
 		
 		$map = array(
-			array('name'=>'pageLength', 'type'=>'integer', 'required'=>false),
-			array('name'=>'page', 'type'=>'integer', 'required'=>false),
-			array('name'=>'domain', 'type'=>'domain', 'required'=>false),
-			array('name'=>'word', 'type'=>'string', 'required'=>false),
-			array('name'=>'tld', 'type'=>'string', 'required'=>false),
-			array('name'=>'renewable', 'type'=>'boolean', 'required'=>false)
+			array( 'name' => 'pageLength',	'type' => 'integer',	'required' => false ),
+			array( 'name' => 'page',		'type' => 'integer',	'required' => false ),
+			array( 'name' => 'domain',		'type' => 'domain',		'required' => false ),
+			array( 'name' => 'word',		'type' => 'string',		'required' => false ),
+			array( 'name' => 'tld',			'type' => 'string',		'required' => false ),
+			array( 'name' => 'renewable',	'type' => 'boolean',	'required' => false ),
+			array( 'name' => 'infoType', 	'type' => 'list',		'required' => false,	'list' => array( 'status', 'contact', 'nameservers', 'service', 'gluerecords' )),
+			array( 'name' => 'owner',		'type' => 'string',		'required' => false ),
+			array( 'name' => 'tag',			'type' => 'string',		'required' => false ),
+			array( 'name' => 'status',		'type' => 'string',		'required' => false ),
+			array( 'name' => 'ownerverification', 'type' => 'string', 'required' => false )
 		);
 		
 		return $this->execute('domain/list/', $_params, $map);
@@ -804,6 +857,18 @@ class DonDominioAPI_Domain extends DonDominioAPIModule
 		);
 		
 		return $this->execute('domain/whois/', $_params, $map);
+	}
+	
+	protected function resendVerificationMail( $domain )
+	{
+		$_params = $this->getDomainOrDomainID( $domain );
+		
+		$map = array(
+			array('name'=>'domain', 'type'=>'domain', 'required'=>true, 'bypass'=>'domainID'),
+			array('name'=>'domainID', 'type'=>'string', 'required'=>true, 'bypass'=>'domain')
+		);
+		
+		return $this->execute( 'domain/resendverificationmail/', $_params, $map );
 	}
 	
 	/**
