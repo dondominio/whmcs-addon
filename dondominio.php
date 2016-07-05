@@ -217,6 +217,7 @@ function dondominio_upgrade($vars)
 				`id` INT(1) NOT NULL AUTO_INCREMENT PRIMARY KEY,
 				`tld` VARCHAR(64) NOT NULL,
 				`ignore` TINYINT(1) NOT NULL,
+				`enabled` TINYINT(1) NOT NULL,
 				`register_increase` DECIMAL(10,2) NOT NULL DEFAULT 0,
 				`register_increase_type` VARCHAR(16) NOT NULL DEFAULT 'fixed',
 				`renew_increase` DECIMAL(10,2) NOT NULL DEFAULT 0,
