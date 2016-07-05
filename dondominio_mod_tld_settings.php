@@ -26,7 +26,7 @@ function dondominio_mod_tld_settings_index($vars)
 		dd_update_tld_settings($vars);
 	}
 	
-	$q_tld = full_query( "SELECT * from mod_dondominio_tld_settings WHERE tld = '" . $_GET['tld'] . "'" );
+	$q_tld = full_query( "SELECT id, tld, `ignore`, enabled, register_increase, register_increase_type, renew_increase, renew_increase_type, transfer_increase, transfer_increase_type from mod_dondominio_tld_settings WHERE tld = '" . $_GET['tld'] . "'" );
 	
 	$enable_checkbox = "";
 	$ignore_checkbox = "";
