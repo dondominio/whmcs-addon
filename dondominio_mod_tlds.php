@@ -362,7 +362,7 @@ function dondominio_mod_tlds_update($vars)
 		/*
 		 * Domain custom settings
 		 */
-		$custom_settings = full_query( "SELECT * FROM mod_dondominio_tld_settings WHERE tld = '$extension'" );
+		$custom_settings = full_query( "SELECT id, tld, `ignore`, enabled, register_increase, register_increase_type, renew_increase, renew_increase_type, transfer_increase, transfer_increase_type FROM mod_dondominio_tld_settings WHERE tld = '$extension'" );
 		
 		if( mysql_num_rows( $custom_settings ) == 1 ){
 			list( $id, $tld, $ignore, $enabled, $reg_inc, $reg_inc_type, $ren_inc, $ren_inc_type, $tra_inc, $tra_inc_type ) = mysql_fetch_row( $custom_settings );
