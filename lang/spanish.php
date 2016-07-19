@@ -207,6 +207,15 @@ $_ADDONLANG = array(
 	'lang_kr' => 'Coreano',
 	'lang_pt' => 'Portugués',
 	'lang_tr' => 'Turco',
+	'suggests_is_enabled' => 'El módulo de sugerencias está',
+	'suggests_enabled' => 'Activado',
+	'suggests_disabled' => 'Desactivado',
+	'suggests_change_settings_a' => 'Puedes activar y desactivar el módulo y configurarlo en la',
+	'suggests_change_settings_b' => 'Configuración',
+	'suggests_change_settings_c' >= '',
+	'suggests_integration_a' => 'Sigue las',
+	'suggests_integration_b' => 'Instrucciones de Integración',
+	'suggests_integration_c' => 'para activar las sugerencias en tu web de WHMCS.',
 	
 	// Suggests TPL
 	'tpl_you_may_also_like' => 'Quizás también te guste...',
@@ -224,7 +233,13 @@ $_ADDONLANG = array(
 	'config_username' => 'Nombre de usuario de API',
 	'config_password' => 'Contraseña de API',
 	'config_domain' => 'Dominio de acceso',
+	'config_domain_info' => 'Este es el dominio donde WHMCS se aloja, con http:// o https://.',
 	'config_ip' => 'IPs permitidas',
+	'config_ip_info' => 'Sólo las peticiones provenientes de estas IPs se atenderán. Separa varias IPs con ;.',
+	'config_save' => 'Guardar configuración',
+	'config_cancel' => 'Cancelar',
+	'config_save_success' => 'Configuración guardada correctamente',
+	'config_save_error' => 'La configuración no se ha podido guardar. ¿Quizás hay un problema de permisos?',
 	'config_switch' => 'Cambiar a DonDominio',
 	
 	/*
