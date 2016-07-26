@@ -82,13 +82,13 @@ function hook_daily_cron_job()
 		echo $e->getMessage();
 	}
 	
-	$new_tlds = dd_get("notifications_new_tlds");
-	$prices = dd_get("notifications_prices");
+	$new_tlds = dd_get( "notifications_new_tlds" );
+	$prices = dd_get( "notifications_prices" );
 	
 	foreach($prices_array as $data){
-		$check = full_query("SELECT id, register_price, transfer_price, renew_price FROM mod_dondominio_pricing WHERE tld = '." . $data['tld'] . "' ORDER BY tld ASC");
+		$check = full_query( "SELECT id, register_price, transfer_price, renew_price FROM mod_dondominio_pricing WHERE tld = '." . $data['tld'] . "' ORDER BY tld ASC" );
 		
-		if(array_key_exists('create', $data)){
+		if(array_key_exists( 'create', $data )){
 			$create_price = "'" . $data['create']['price'] . "'";
 			$create_range = "'" . $data['create']['years'] . "'";
 		}else{
@@ -96,7 +96,7 @@ function hook_daily_cron_job()
 			$create_range = 'NULL';
 		}
 		
-		if(array_key_exists('transfer', $data)){
+		if(array_key_exists( 'transfer', $data )){
 			$transfer_price = "'" . $data['transfer']['price'] . "'";
 			$transfer_range = "'" . $data['transfer']['years'] . "'";
 		}else{
@@ -104,7 +104,7 @@ function hook_daily_cron_job()
 			$transfer_range = 'NULL';
 		}
 		
-		if(array_key_exists('renew', $data)){
+		if(array_key_exists( 'renew', $data )){
 			$renew_price = "'" . $data['renew']['price'] . "'";
 			$renew_range = "'" . $data['renew']['years'] . "'";
 		}else{
@@ -146,7 +146,7 @@ function hook_daily_cron_job()
 				)
 			";
 			
-			$q_insert = full_query($s_insert);
+			$q_insert = full_query( $s_insert );
 			
 			$added_to_db[$data['tld']] = array(
 				'register_price' => $create_price,
@@ -156,9 +156,9 @@ function hook_daily_cron_job()
 		}else{
 			$old_data = mysql_fetch_array($check, MYSQL_ASSOC);
 			
-			$old_register_price = (empty($old_data['register_price'])) ? 'NULL' : "'" . $old_data['register_price'] . "'";
-			$old_transfer_price = (empty($old_data['transfer_price'])) ? 'NULL' : "'" . $old_data['transfer_price'] . "'";
-			$old_renew_price = (empty($old_data['renew_price'])) ? 'NULL' : "'" . $old_data['renew_price'] . "'";
+			$old_register_price = ( empty($old_data['register_price'] )) ? 'NULL' : "'" . $old_data['register_price'] . "'";
+			$old_transfer_price = ( empty($old_data['transfer_price'] )) ? 'NULL' : "'" . $old_data['transfer_price'] . "'";
+			$old_renew_price = ( empty($old_data['renew_price'] )) ? 'NULL' : "'" . $old_data['renew_price'] . "'";
 			
 			//Updating
 			$s_update = "
@@ -175,7 +175,31 @@ function hook_daily_cron_job()
 					tld = '." . $data['tld'] . "'
 			";
 			
-			$q_update = full_query($s_update);
+			$q_update = full_query( $s_update );
+			
+			if( array_key_exists( 'create', $data )){
+				$create_price = (int) $data['create']['price'];
+				$create_range = (int) $data['create']['years'];
+			}else{
+				$create_price = 0;
+				$create_range = 0;
+			}
+			
+			if( array_key_exists( 'transfer', $data )){
+				$transfer_price = (int) $data['transfer']['price'];
+				$transfer_range = (int) $data['transfer']['years'];
+			}else{
+				$transfer_price = 0;
+				$transfer_range = 0;
+			}
+			
+			if( array_key_exists( 'renew', $data )){
+				$renew_price = (int) $data['renew']['price'];
+				$renew_range = (int) $data['renew']['years'];
+			}else{
+				$renew_price = 0;
+				$renew_range = 0;
+			}
 			
 			if(
 				$old_data['register_price'] != $create_price ||
@@ -186,25 +210,25 @@ function hook_daily_cron_job()
 				$transfer_difference = $old_data['transfer_price'] - $transfer_price;
 				$renew_difference = $old_data['renew_price'] - $renew_price;
 				
-				if($old_data['register_price'] < $create_price){
+				if( $old_data['register_price'] < $create_price ){
 					$register_difference = '+ ' . number_format(($register_difference * -1), 2, '.', ',');
 				}else{
 					$register_difference = '- ' . number_format($register_difference, 2, '.', ',');
 				}
 				
-				if($old_data['transfer_price'] < $transfer_price){
+				if( $old_data['transfer_price'] < $transfer_price ){
 					$transfer_difference = '+ ' . number_format(($transfer_difference * -1), 2, '.', ',');
 				}else{
 					$transfer_difference = '- ' . number_format($transfer_difference, 2, '.', ',');
 				}
 				
-				if($old_data['renew_price'] < $renew_price){
+				if( $old_data['renew_price'] < $renew_price ){
 					$renew_difference = '+ ' . number_format(($renew_difference * -1), 2, '.', ',');
 				}else{
 					$renew_difference = '- ' . number_format($renew_difference, 2, '.', ',');
 				}
 				
-				if(dd_add_tld_to_list($data['tld'])){
+				if( dd_add_tld_to_list( $data['tld'])){
 					$prices_updated[$data['tld']] = array(
 						'register_price' => $create_price,
 						'transfer_price' => $transfer_price,
