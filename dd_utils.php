@@ -29,11 +29,11 @@ function dd_get_whmcs_version()
  * @param string $key Key of the value to get
  * @return string
  */
-function dd_get($key)
+function dd_get( $key )
 {
-	$settings = full_query("SELECT `value` FROM `mod_dondominio_settings` WHERE `key`='$key'");
+	$settings = full_query( "SELECT `value` FROM `mod_dondominio_settings` WHERE `key`='$key'" );
 	
-	$result = mysql_fetch_array($settings, MYSQL_ASSOC);
+	$result = mysql_fetch_array( $settings, MYSQL_ASSOC );
 	
 	return $result['value'];
 }
@@ -45,7 +45,7 @@ function dd_get($key)
  * @param string $value Value to save
  * @return boolean
  */
-function dd_set($key, $value)
+function dd_set( $key, $value )
 {
 	$update = full_query( "REPLACE INTO `mod_dondominio_settings` (`key`, `value`) VALUES ( '$key', '$value')" );
 	
@@ -57,11 +57,11 @@ function dd_set($key, $value)
  * @param string $key Name of the setting
  * @return string
  */
-function dd_get_setting($key)
+function dd_get_setting( $key )
 {
-	$q_setting = full_query("SELECT value FROM tblconfiguration WHERE setting='" . $key . "'");
+	$q_setting = full_query( "SELECT value FROM tblconfiguration WHERE setting='" . $key . "'" );
 	
-	list($setting) = mysql_fetch_row($q_setting);
+	list( $setting ) = mysql_fetch_row( $q_setting );
 	
 	return $setting;
 }
@@ -72,17 +72,17 @@ function dd_get_setting($key)
  * @param string $html Contents of the email
  * @return boolean
  */
-function dd_send_email($subject, $html)
+function dd_send_email( $subject, $html )
 {
-	$headers  = "From: DonDominio WHMCS Addon <no-reply@" . php_uname('n') . ">\r\n";
+	$headers  = "From: DonDominio WHMCS Addon <no-reply@" . php_uname( 'n' ) . ">\r\n";
 	$headers .= "MIME-Version: 1.0\r\n";
 	$headers .= "Content-Type: text/html;r charset=iso-8859-1\r\n";
 	
-	$notifications = dd_get("notifications_enabled");
-	$notifications_email = dd_get("notifications_email");
+	$notifications = dd_get( "notifications_enabled" );
+	$notifications_email = dd_get( "notifications_email" );
 	
-	if($notifications == '1' && !empty($notifications_email)){
-		mail($notifications_email, $subject, $html, $headers);
+	if( $notifications == '1' && !empty( $notifications_email )){
+		mail( $notifications_email, $subject, $html, $headers );
 	}
 	
 	return true;
@@ -118,9 +118,9 @@ function dd_getVersion()
 function dd_init()
 {
 	$options = array(
-		'apiuser' => dd_get('api_username'),
+		'apiuser' => dd_get( 'api_username' ),
 		'apipasswd' => base64_decode( dd_get( 'api_password' )),
-		'autoValidate' => true,
+		'autoValidate' => false,
 		'versionCheck' => true,
 		'response' => array(
 			'throwExceptions' => true
@@ -130,7 +130,7 @@ function dd_init()
 		)
 	);
 	
-	$dondominio = new DonDominioAPI($options);
+	$dondominio = new DonDominioAPI( $options );
 	
 	return $dondominio;
 }
@@ -141,7 +141,7 @@ function dd_init()
  */
 function dd_initial_sync()
 {
-	full_query("DELETE FROM mod_dondominio_pricing");
+	full_query( "DELETE FROM mod_dondominio_pricing" );
 	
 	$dondominio = dd_init();
 	
@@ -152,23 +152,23 @@ function dd_initial_sync()
 		$total = 0;
 		
 		do{
-			$prices = $dondominio->account_zones(array(
+			$prices = $dondominio->account_zones( array(
 				'pageLength' => 100,
 				'page' => $i
 			));
 			
-			$prices_array = array_merge($prices_array, $prices->get("zones"));
+			$prices_array = array_merge( $prices_array, $prices->get( "zones" ));
 			
-			$total = $prices->get("queryInfo")['total'];
+			$total = $prices->get( "queryInfo" )['total'];
 			
 			$i++;
-		}while($total > count($prices_array));
+		}while( $total > count( $prices_array ));
 	}catch(DonDominioAPI_Error $e){
 		return false;
 	}
 	
-	foreach($prices_array as $data){
-		if(array_key_exists('create', $data)){
+	foreach( $prices_array as $data ){
+		if(array_key_exists( 'create', $data )){
 			$create_price = "'" . $data['create']['price'] . "'";
 			$create_range = "'" . $data['create']['years'] . "'";
 		}else{
@@ -176,7 +176,7 @@ function dd_initial_sync()
 			$create_range = 'NULL';
 		}
 		
-		if(array_key_exists('transfer', $data)){
+		if(array_key_exists( 'transfer', $data )){
 			$transfer_price = "'" . $data['transfer']['price'] . "'";
 			$transfer_range = "'" . $data['transfer']['years'] . "'";
 		}else{
@@ -184,7 +184,7 @@ function dd_initial_sync()
 			$transfer_range = 'NULL';
 		}
 		
-		if(array_key_exists('renew', $data)){
+		if(array_key_exists( 'renew', $data )){
 			$renew_price = "'" . $data['renew']['price'] . "'";
 			$renew_range = "'" . $data['renew']['years'] . "'";
 		}else{
@@ -236,26 +236,26 @@ function dd_initial_sync()
  */
 function dd_create_currency_placeholders()
 {
-	$tlds = full_query("SELECT id FROM tbldomainpricing WHERE autoreg = 'dondominio'");
+	$tlds = full_query( "SELECT id FROM tbldomainpricing WHERE autoreg = 'dondominio'" );
 	
-	while(list($tld_id) = mysql_fetch_row($tlds)){
-		$currencies = full_query("SELECT id FROM tblcurrencies WHERE NOT code = 'EUR'");
+	while( list( $tld_id ) = mysql_fetch_row( $tlds )){
+		$currencies = full_query( "SELECT id FROM tblcurrencies WHERE NOT code = 'EUR'" );
 		
-		while(list($currency_id) = mysql_fetch_row($currencies)){
-			$create = full_query("SELECT * FROM tblpricing WHERE relid = $tld_id AND currency = $currency_id AND type='domainregister'");
-			$transfer = full_query("SELECT * FROM tblpricing WHERE relid = $tld_id AND currency = $currency_id AND type='domaintransfer'");
-			$renew = full_query("SELECT * FROM tblpricing WHERE relid = $tld_id AND currency = $currency_id AND type='domainrenew'");
+		while( list( $currency_id ) = mysql_fetch_row( $currencies )){
+			$create = full_query( "SELECT * FROM tblpricing WHERE relid = $tld_id AND currency = $currency_id AND type='domainregister'" );
+			$transfer = full_query( "SELECT * FROM tblpricing WHERE relid = $tld_id AND currency = $currency_id AND type='domaintransfer'" );
+			$renew = full_query( "SELECT * FROM tblpricing WHERE relid = $tld_id AND currency = $currency_id AND type='domainrenew'" );
 			
-			if(mysql_num_rows($create) == 0){
-				dd_insert_currency('domainregister', $tld_id, $currency_id);
+			if( mysql_num_rows( $create ) == 0 ){
+				dd_insert_currency( 'domainregister', $tld_id, $currency_id );
 			}
 			
-			if(mysql_num_rows($transfer) == 0){
-				dd_insert_currency('domaintransfer', $tld_id, $currency_id);
+			if( mysql_num_rows( $transfer ) == 0 ){
+				dd_insert_currency( 'domaintransfer', $tld_id, $currency_id );
 			}
 			
-			if(mysql_num_rows($renew) == 0){
-				dd_insert_currency('domainrenew', $tld_id, $currency_id);
+			if( mysql_num_rows( $renew ) == 0 ){
+				dd_insert_currency( 'domainrenew', $tld_id, $currency_id );
 			}
 		}
 	}

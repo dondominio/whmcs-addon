@@ -30,12 +30,12 @@ if(!defined( "WHMCS" )){
 function dondominio_config()
 {
 	$configarray = array(
-		"name" => "DonDominio Manager",
-		"description" => "Advanced features from DonDominio.",
-		"version" => dd_getVersion(),
-		"author" => "DonDominio",
-		"language" => "english",
-		"fields" => array()
+		"name"			=> "DonDominio Manager",
+		"description"	=> "Advanced features from DonDominio.",
+		"version"		=> dd_getVersion(),
+		"author"		=> "DonDominio",
+		"language"		=> "english",
+		"fields"		=> array()
 	);
 	
 	return $configarray;
@@ -51,7 +51,10 @@ function dd_do_query( $sql )
 	$result = full_query( $sql );
 	
 	if( !$result ){
-		return array( 'status' => 'error','description' => 'There was a problem activating the DonDominio Manager Addon. Please contact support.' );
+		return array(
+			'status' => 'error',
+			'description' => 'There was a problem activating the DonDominio Manager Addon. Please contact support.'
+		);
 	}
 	
 	return true;
@@ -233,6 +236,12 @@ function dondominio_upgrade($vars)
 		
 		$result = full_query( $query );
 	}
+	
+	if( $version < 1.6 ){
+		$query = "ALTER TABLE `mod_dondominio_tld_settings` ADD `ignore` TINYINT(1) NOT NULL";
+		
+		$result = full_query( $query );
+	}			
 	
 	return true;
 }

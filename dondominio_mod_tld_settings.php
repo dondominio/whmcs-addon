@@ -9,8 +9,8 @@
  * @license CC BY-ND 3.0 <http://creativecommons.org/licenses/by-nd/3.0/>
  */
 
-if(!defined("WHMCS")){
-	die("This file cannot be accessed directly");
+if( !defined( "WHMCS" )){
+	die( "This file cannot be accessed directly" );
 }
 
 /**

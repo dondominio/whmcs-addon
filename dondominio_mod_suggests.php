@@ -28,7 +28,7 @@ function dondominio_mod_suggests_index( $vars )
 	echo "
 	<h2>" . $LANG['suggests_title'] . "</h2>
 	
-	<p>" . $LANG['suggests_is_enabled'] . "<strong>" . $enabled_status . "</strong>.</p>
+	<p>" . $LANG['suggests_is_enabled'] . "<strong> " . $enabled_status . "</strong>.</p>
 	
 	<p>" . $LANG['suggests_change_settings_a'] . " <strong><a href=\"addonmodules.php?module=dondominio&action=settings\">" . $LANG['suggests_change_settings_b'] . "</a></strong> " . $LANG['suggests_change_settings_c'] . ".</p>
 	

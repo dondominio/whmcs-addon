@@ -1,6 +1,7 @@
 <?php
 
 require_once( __DIR__ . '/../../../../init.php' );
+require_once( __DIR__ . '/../dd_utils.php' );
 require_once( __DIR__ . "/../lib/sdk/DonDominioAPI.php" );
 
 $options = array(

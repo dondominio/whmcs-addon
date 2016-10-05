@@ -108,9 +108,9 @@ function dd_domain_pricing($tld)
 	}
 	
 	//Transfer
-	$transfer_terms = explode(",", $transfer_range);
+	$transfer_terms = explode( ",", $transfer_range );
 	
-	foreach($transfer_terms as $term){
+	foreach( $transfer_terms as $term ){
 		if(strpos($term, '-')){
 			$range = explode("-", $term);
 			

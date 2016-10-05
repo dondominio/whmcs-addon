@@ -9,8 +9,8 @@
  * @license CC BY-ND 3.0 <http://creativecommons.org/licenses/by-nd/3.0/>
  */
  
-if(!defined('WHMCS')){
-	die('This file cannot be accessed directly');
+if( !defined( 'WHMCS' )){
+	die( 'This file cannot be accessed directly' );
 }
 
 /**
@@ -18,7 +18,7 @@ if(!defined('WHMCS')){
  * Settings screen.
  * @param array $vars Parameters from WHMCS
  */
-function dondominio_mod_settings_index($vars)
+function dondominio_mod_settings_index( $vars )
 {
 	$LANG = $vars['_lang'];
 	
@@ -26,7 +26,7 @@ function dondominio_mod_settings_index($vars)
 	$tab1 = '';
 	$tab2 = '';
 	
-	$username = dd_get('api_username');
+	$username = dd_get( 'api_username' );
 	$password = base64_decode( dd_get( 'api_password' ));
 	
 	if( strlen( $username ) == 0 || strlen( $password ) == 0 ){
@@ -39,14 +39,14 @@ function dondominio_mod_settings_index($vars)
 	$tab3 = '';
 	
 	if(count($_POST)){
-		switch($_POST['tab']){
+		switch( $_POST['tab'] ){
 		
 		// API settings
 		case 0:
 			dd_set( 'api_username',				(string) $_POST['api_username'] );
 			dd_set( 'api_password',				(string) base64_encode( $_POST['api_password'] ));
 			
-			if($initial_sync){
+			if( $initial_sync ){
 				dd_initial_sync();
 			}
 			
@@ -55,42 +55,42 @@ function dondominio_mod_settings_index($vars)
 			
 		// Price settings
 		case 1:
-			dd_set( "prices_autoupdate",		( $_POST['prices_update_cron'] == 'on' ) ? '1' : '0' );
-			dd_set( "register_increase",		floatval($_POST['prices_register_add'] ));
-			dd_set( "transfer_increase",		floatval($_POST['prices_transfer_add'] ));
-			dd_set( "renew_increase",			floatval($_POST['prices_renew_add'] ));
+			dd_set( 'prices_autoupdate',		( $_POST['prices_update_cron'] == 'on' ) ? '1' : '0' );
+			dd_set( 'register_increase',		floatval($_POST['prices_register_add'] ));
+			dd_set( 'transfer_increase',		floatval($_POST['prices_transfer_add'] ));
+			dd_set( 'renew_increase',			floatval($_POST['prices_renew_add'] ));
 			
-			dd_set( "register_increase_type",	$_POST['prices_register_type'] );
-			dd_set( "transfer_increase_type",	$_POST['prices_transfer_type'] );
-			dd_set( "renew_increase_type",		$_POST['prices_renew_type'] );
+			dd_set( 'register_increase_type',	$_POST['prices_register_type'] );
+			dd_set( 'transfer_increase_type',	$_POST['prices_transfer_type'] );
+			dd_set( 'renew_increase_type',		$_POST['prices_renew_type'] );
 			
 			$tab1 = 'tabselected';
 			break;
 			
 		// Notifications settings
 		case 2:
-			dd_set( "notifications_enabled",	( $_POST['notifications_enabled'] == 'on' ) ? '1' : '0' );
-			dd_set( "notifications_email",		$_POST['notifications_email'] );
-			dd_set( "notifications_new_tlds",	( $_POST['notifications_new_tld'] == 'on' ) ? '1' : '0' );
-			dd_set( "notifications_prices",		( $_POST['notifications_prices'] == 'on' ) ? '1' : '0' );
-			dd_set( "watchlist_mode",			$_POST['watchlist'] );
+			dd_set( 'notifications_enabled',	( $_POST['notifications_enabled'] == 'on' ) ? '1' : '0' );
+			dd_set( 'notifications_email',		$_POST['notifications_email'] );
+			dd_set( 'notifications_new_tlds',	( $_POST['notifications_new_tld'] == 'on' ) ? '1' : '0' );
+			dd_set( 'notifications_prices',		( $_POST['notifications_prices'] == 'on' ) ? '1' : '0' );
+			dd_set( 'watchlist_mode',			$_POST['watchlist'] );
 			
-			full_query("DELETE FROM mod_dondominio_watchlist");
+			full_query( "DELETE FROM mod_dondominio_watchlist" );
 			
-			foreach($_POST['selected_tlds'] as $tld){
+			foreach( $_POST['selected_tlds'] as $tld ){
 				$values[] = "('$tld')";
 			}
 			
 			$sql = "INSERT INTO mod_dondominio_watchlist(tld) VALUES " . implode(',', $values);
 			
-			full_query($sql);
+			full_query( $sql );
 			
 			$tab2 = 'tabselected';
 			break;
 			
 		// Cache settings
 		case 3:
-			if($_POST['cache_rebuild'] == 'on'){
+			if( $_POST['cache_rebuild'] == 'on' ){
 				dd_initial_sync();
 			}
 			
@@ -99,8 +99,8 @@ function dondominio_mod_settings_index($vars)
 			
 		// Domain Suggestions
 		case 4:
-			dd_set( "suggests_enabled",			( $_POST['suggests_enabled'] == 'on' ) ? '1' : '0' );
-			dd_set( "suggests_language",		$_POST['language'] );
+			dd_set( 'suggests_enabled',			( $_POST['suggests_enabled'] == 'on' ) ? '1' : '0' );
+			dd_set( 'suggests_language',		$_POST['language'] );
 			dd_set( 'suggests_tlds',			implode( ',', $_POST['tlds'] ));
 			
 			$tab4 = 'tabselected';
@@ -124,7 +124,7 @@ function dondominio_mod_settings_index($vars)
 		$_POST['tab'] = 0;
 	}
 	
-	$username = dd_get('api_username');
+	$username = dd_get( 'api_username' );
 	$password = base64_decode( dd_get( 'api_password' ));
 	
 	if( strlen( $username ) == 0 || strlen( $password ) == 0 ){
@@ -136,37 +136,37 @@ function dondominio_mod_settings_index($vars)
 	}
 	
 	//Price increase type for domain registering
-	$register_increase_type = dd_get("register_increase_type");
+	$register_increase_type = dd_get( 'register_increase_type' );
 	$register_increase_type_fixed = ($register_increase_type == 'fixed') ? "checked='checked'" : "";
 	$register_increase_type_percent = ($register_increase_type == 'percent') ? "checked='checked'" : "";
 	
 	//Price increase type for domain transfer
-	$transfer_increase_type = dd_get("transfer_increase_type");
+	$transfer_increase_type = dd_get( 'transfer_increase_type' );
 	$transfer_increase_type_fixed = ($transfer_increase_type == 'fixed') ? "checked='checked'" : "";
 	$transfer_increase_type_percent = ($transfer_increase_type == 'percent') ? "checked='checked'" : "";
 	
 	//Price increase type for domain renewal
-	$renew_increase_type = dd_get("renew_increase_type");
+	$renew_increase_type = dd_get( 'renew_increase_type' );
 	$renew_increase_type_fixed = ($renew_increase_type == 'fixed') ? "checked='checked'" : "";
 	$renew_increase_type_percent = ($renew_increase_type == 'percent') ? "checked='checked'" : "";
 	
 	//Notifications enabled
-	$notifications_enabled = dd_get("notifications_enabled");
+	$notifications_enabled = dd_get( 'notifications_enabled' );
 	$notifications_enabled_checkbox = ($notifications_enabled == '1') ? "checked='checked'" : "";
 	
 	//Types of notifications
-	$notifications_new_tlds = dd_get("notifications_new_tlds");
+	$notifications_new_tlds = dd_get( 'notifications_new_tlds' );
 	$notifications_new_tlds_checkbox = ($notifications_new_tlds == '1') ? "checked='checked'" : "";
 	
-	$notifications_prices = dd_get("notifications_prices");
+	$notifications_prices = dd_get( 'notifications_prices' );
 	$notifications_prices_checkbox = ($notifications_prices == '1') ? "checked='checked'" : "";
 	
 	//Price autoupdate
-	$prices_autoupdate = dd_get("prices_autoupdate");
+	$prices_autoupdate = dd_get( 'prices_autoupdate' );
 	$prices_update_cron = ($prices_autoupdate == '1') ? "checked='checked'" : "";
 	
-	$tlds = full_query("SELECT tld FROM mod_dondominio_pricing WHERE tld NOT IN (SELECT tld FROM mod_dondominio_watchlist) ORDER BY tld ASC");
-	$selected_tlds = full_query("SELECT tld FROM mod_dondominio_watchlist ORDER BY tld ASC");
+	$tlds = full_query( "SELECT tld FROM mod_dondominio_pricing WHERE tld NOT IN (SELECT tld FROM mod_dondominio_watchlist) ORDER BY tld ASC" );
+	$selected_tlds = full_query( "SELECT tld FROM mod_dondominio_watchlist ORDER BY tld ASC" );
 	
 	echo "
 	<h2>" . $LANG['settings_title'] . "</h2>
@@ -213,7 +213,7 @@ function dondominio_mod_settings_index($vars)
 							</td>
 							
 							<td class='fieldarea'>
-								<input type='text' name='api_username' value='" . dd_get("api_username") . "' />
+								<input type='text' name='api_username' required='required' value='" . dd_get( 'api_username' ) . "' />
 								" . $LANG['settings_api_username_info'] . "
 							</td>
 						</tr>
@@ -224,7 +224,7 @@ function dondominio_mod_settings_index($vars)
 							</td>
 							
 							<td class='fieldarea'>
-								<input type='text' name='api_password' value='" . base64_decode( dd_get( "api_password" )) . "' />
+								<input type='text' name='api_password' required='required' value='" . base64_decode( dd_get( 'api_password' )) . "' />
 								" . $LANG['settings_api_password_info'] . "
 							</td>
 						</tr>
@@ -267,7 +267,7 @@ function dondominio_mod_settings_index($vars)
 							</td>
 							
 							<td class='fieldarea'>
-								<input type='text' name='prices_transfer_add' size='20' value='" . dd_get("transfer_increase") . "' />
+								<input type='text' name='prices_transfer_add' size='20' value='" . dd_get( 'transfer_increase' ) . "' />
 								
 								<label><input type='radio' name='prices_transfer_type' value='fixed' $transfer_increase_type_fixed> " . $LANG['settings_prices_type_fixed'] . "</label>
 								<label><input type='radio' name='prices_transfer_type' value='percent' $transfer_increase_type_percent> " . $LANG['settings_prices_type_percent'] . "</label>
@@ -280,7 +280,7 @@ function dondominio_mod_settings_index($vars)
 							</td>
 							
 							<td class='fieldarea'>
-								<input type='text' name='prices_renew_add' size='20' value='" . dd_get("renew_increase") . "' />
+								<input type='text' name='prices_renew_add' size='20' value='" . dd_get( 'renew_increase' ) . "' />
 								
 								<label><input type='radio' name='prices_renew_type' value='fixed' $renew_increase_type_fixed> " . $LANG['settings_prices_type_fixed'] . "</label>
 								<label><input type='radio' name='prices_renew_type' value='percent' $renew_increase_type_percent> " . $LANG['settings_prices_type_percent'] . "</label>
@@ -354,7 +354,7 @@ function dondominio_mod_settings_index($vars)
 												<select id='tlds_available' name='all_tlds[]' multiple size='20' style='width: 100%;'>
 												";
 												
-												while(list($available_tld) = mysql_fetch_row($tlds)){
+												while( list( $available_tld ) = mysql_fetch_row( $tlds )){
 													echo "
 													<option value='$available_tld'>$available_tld</option>
 													";
@@ -375,7 +375,7 @@ function dondominio_mod_settings_index($vars)
 												<select id='tlds_selected' name='selected_tlds[]' multiple size='20' style='width: 100%;'>
 												";
 												
-												while(list($available_tld) = mysql_fetch_row($selected_tlds)){
+												while( list( $available_tld ) = mysql_fetch_row( $selected_tlds )){
 													echo "
 													<option value='$available_tld'>$available_tld</option>
 													";
@@ -402,7 +402,7 @@ function dondominio_mod_settings_index($vars)
 			FROM mod_dondominio_pricing
 		");
 		
-		list($last_update, $total_tlds) = mysql_fetch_row($q_cache_info);
+		list( $last_update, $total_tlds ) = mysql_fetch_row( $q_cache_info );
 		
 		// Choose selected language
 		$lang_selected[ dd_get( 'suggests_language' ) ] = "selected=\"selected\"";
@@ -480,7 +480,7 @@ function dondominio_mod_settings_index($vars)
 							</td>
 							
 							<td class=\"fieldarea\">
-								<select name=\"language\">
+								<select name=\"language\" required=\"required\">
 									<option value=\"en\" " . $lang_selected['en'] . ">" . $LANG['lang_en'] . "</option>
 									<option value=\"es\" " . $lang_selected['es'] . ">" . $LANG['lang_es'] . "</option>
 									<option value=\"zh\" " . $lang_selected['zh'] . ">" . $LANG['lang_zh'] . "</option>
@@ -499,7 +499,7 @@ function dondominio_mod_settings_index($vars)
 							</td>
 							
 							<td class=\"fieldarea\">
-								<select multiple=\"multiple\" name=\"tlds[]\">
+								<select multiple=\"multiple\" name=\"tlds[]\" required=\"required\">
 									<option value=\"com\" " . $tlds_selected['com'] . ">.com</option>
 									<option value=\"net\" " . $tlds_selected['net'] . ">.net</option>
 									<option value=\"tv\" " . $tlds_selected['tv'] . ">.tv</option>

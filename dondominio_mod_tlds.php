@@ -21,17 +21,20 @@ if(!defined("WHMCS")){
 function dondominio_mod_tlds_index($vars)
 {
 	if( array_key_exists( 'form_action', $_POST )){
-		switch($_POST['form_action']){
+		switch( $_POST['form_action'] ){
 		case 'update':
-			dondominio_mod_tlds_update($vars);
+			dondominio_mod_tlds_update( $vars );
 			break;
 		case 'registrar':
-			dondominio_mod_tlds_switchRegistrar($vars);
+			dondominio_mod_tlds_switchRegistrar( $vars );
 			break;
 		case 'create':
-			dondominio_mod_tlds_create($vars);
+			dondominio_mod_tlds_create( $vars );
 			dd_create_currency_placeholders();
 			dd_update_currencies();
+			break;
+		case 'reorder':
+			dd_reorder_tlds();
 			break;
 		}
 	}
@@ -43,21 +46,21 @@ function dondominio_mod_tlds_index($vars)
 	*/
 	$page = 1;
 	
-	$items = dd_get_setting("NumRecordstoDisplay");
+	$items = dd_get_setting( "NumRecordstoDisplay" );
 	
-	if(array_key_exists('page', $_GET) && $_GET['page'] > 1){
+	if( array_key_exists( 'page', $_GET ) && $_GET['page'] > 1 ){
 		$page = $_GET['page'];
 	}
 	
-	list($total) = mysql_fetch_row(full_query("SELECT count(id) FROM tbldomainpricing"));
+	list( $total ) = mysql_fetch_row( full_query( "SELECT count(id) FROM tbldomainpricing" ));
 	
-	$total_pages = ceil($total / $items);
+	$total_pages = ceil( $total / $items );
 	
-	if($page > $total_pages){
+	if( $page > $total_pages ){
 		$page = $total_pages;
 	}
 	
-	$start = (($page - 1) * $items);
+	$start = (( $page - 1 ) * $items );
 	/* *** */
 	
 	$local_tlds = full_query("
@@ -92,7 +95,7 @@ function dondominio_mod_tlds_index($vars)
 						<select name='page' onchange='submit()'>
 						";
 						
-						for($i=1;$i<=$total_pages;$i++){
+						for( $i=1; $i<=$total_pages; $i++ ){
 							echo "
 							<option value='$i' ";
 							
@@ -138,8 +141,8 @@ function dondominio_mod_tlds_index($vars)
 			<tbody>
 		";
 		
-		if(mysql_num_rows($local_tlds) > 0){
-			while(list($tld_id, $tld, $registrar) = mysql_fetch_row($local_tlds)){
+		if( mysql_num_rows( $local_tlds ) > 0 ){
+			while( list( $tld_id, $tld, $registrar ) = mysql_fetch_row( $local_tlds )){
 				echo "
 					<tr>
 						<td>
@@ -149,7 +152,7 @@ function dondominio_mod_tlds_index($vars)
 						<td>
 				";
 				
-				if(empty($registrar)){
+				if( empty( $registrar )){
 					echo "
 							<strong>$tld</strong>
 					";
@@ -219,6 +222,7 @@ function dondominio_mod_tlds_index($vars)
 		
 		" . $LANG['info_with_selected'] . " <button type='submit' name='form_action' value='update' class='btn'>" . $LANG['btn_prices_selected'] . "</button>
 		<button type='submit' name='form_action' value='registrar' class='btn'>" . $LANG['btn_registrar_selected'] . "</button>
+		<button type='submit' name='form_action' value='reorder' class='btn'>" . $LANG['btn_reorder_selected'] . "</button>
 	</form>
 	
 	<p align='center'>
@@ -301,6 +305,20 @@ function dondominio_mod_tlds_switchRegistrar($vars)
 		" . implode('<br />', $added) . "
 	</div>
 	";
+	
+	return true;
+}
+
+function dd_reorder_tlds()
+{
+	$q_domains = full_query( "tld FROM tbldomainpricing ORDER BY extension ASC" );
+	
+	$i = 1;
+	
+	while( list( $id, $extension ) = mysql_fetch_row( $q_domains )){
+		full_query( "UPDATE tbldomainpricing SET order=$i WHERE extension='$extension'" );
+		$i++;
+	}
 	
 	return true;
 }
