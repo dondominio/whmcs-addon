@@ -380,8 +380,8 @@ function dondominio_output( $vars )
 	/*
 	 * We do not allow to go anywhere before entering API Username & Password.
 	 */
-	$username = dd_get( 'api_username' );
-	$password = dd_get( 'api_password' );
+	$username = trim( dd_get( 'api_username' ));
+	$password = trim( dd_get( 'api_password' ));
 	
 	if( strlen( $username ) == 0 || strlen( $password ) == 0 ){
 		$_GET['action'] = 'settings';

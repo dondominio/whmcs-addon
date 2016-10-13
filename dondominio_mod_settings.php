@@ -26,8 +26,8 @@ function dondominio_mod_settings_index( $vars )
 	$tab1 = '';
 	$tab2 = '';
 	
-	$username = dd_get( 'api_username' );
-	$password = base64_decode( dd_get( 'api_password' ));
+	$username = trim( dd_get( 'api_username' ));
+	$password = trim( base64_decode( dd_get( 'api_password' )));
 	
 	if( strlen( $username ) == 0 || strlen( $password ) == 0 ){
 		$initial_sync = true;
@@ -124,8 +124,8 @@ function dondominio_mod_settings_index( $vars )
 		$_POST['tab'] = 0;
 	}
 	
-	$username = dd_get( 'api_username' );
-	$password = base64_decode( dd_get( 'api_password' ));
+	$username = trim( dd_get( 'api_username' ));
+	$password = trim( base64_decode( dd_get( 'api_password' )));
 	
 	if( strlen( $username ) == 0 || strlen( $password ) == 0 ){
 		echo "
@@ -480,7 +480,7 @@ function dondominio_mod_settings_index( $vars )
 							</td>
 							
 							<td class=\"fieldarea\">
-								<select name=\"language\" required=\"required\">
+								<select name=\"language\">
 									<option value=\"en\" " . $lang_selected['en'] . ">" . $LANG['lang_en'] . "</option>
 									<option value=\"es\" " . $lang_selected['es'] . ">" . $LANG['lang_es'] . "</option>
 									<option value=\"zh\" " . $lang_selected['zh'] . ">" . $LANG['lang_zh'] . "</option>
@@ -499,7 +499,7 @@ function dondominio_mod_settings_index( $vars )
 							</td>
 							
 							<td class=\"fieldarea\">
-								<select multiple=\"multiple\" name=\"tlds[]\" required=\"required\">
+								<select multiple=\"multiple\" name=\"tlds[]\">
 									<option value=\"com\" " . $tlds_selected['com'] . ">.com</option>
 									<option value=\"net\" " . $tlds_selected['net'] . ">.net</option>
 									<option value=\"tv\" " . $tlds_selected['tv'] . ">.tv</option>

@@ -117,6 +117,11 @@ function dd_getVersion()
  */
 function dd_init()
 {
+	if( !strlen( dd_get( 'api_username' ))){
+		header( "Location: addonmodules.php?module=dondominio&action=settings" );
+		exit();
+	}
+	
 	$options = array(
 		'apiuser' => dd_get( 'api_username' ),
 		'apipasswd' => base64_decode( dd_get( 'api_password' )),

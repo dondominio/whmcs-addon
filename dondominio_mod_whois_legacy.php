@@ -65,6 +65,10 @@ function dondominio_mod_whois_legacy_index( $vars )
 				echo "<div class='errorbox'><span class='title'>" . $lang['new-tld-error'] . "</span></div>";
 			}
 			
+			if( $_GET['message'] == 'new-tld-api-error' ){
+				echo "<div class='errorbox'><span class='title'>" . $lang['new-tld-api-error'] . "</span></div>";
+			}
+			
 			if( $_GET['message'] == 'import-ok' ){
 				echo "<div class='successbox'><span class='title'>" . $lang['import-ok'] . "</span></div>";
 			}
@@ -164,7 +168,7 @@ function dondominio_mod_whois_legacy_index( $vars )
 	}
 }
 
-function ddwhois_load_file_text()
+function ddwhois_load_file_text( $vars )
 {
 	$lang = $vars['_lang'];
 	
@@ -240,8 +244,6 @@ function ddwhois_load_file_text()
 		</form>
 	</div>
 	";
-	
-	break;
 }
 
 function ddwhois_get( $key )
@@ -359,7 +361,12 @@ function ddwhois_setup( array $vars, $new_tld )
 	
 	# Checking if the TLD is available on MrDomain
 	
-	$dondominio = dd_init( $vars );
+	try{
+		$dondominio = dd_init( $vars );
+	}catch( \Exception $e ){
+		header( 'Location: addonmodules.php?module=dondominio&action=settings' );
+		return false;
+	}
 	
 	try{
 		$tld = $dondominio->account_zones( array(
