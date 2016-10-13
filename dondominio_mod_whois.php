@@ -26,7 +26,7 @@ function dondominio_mod_whois_index( $vars )
 		dondominio_mod_whois_7_index( $vars );
 	}else{
 		include_once( 'dondominio_mod_whois_legacy.php' );
-		dondominio_mod_whois_7_legacy( $vars );
+		dondominio_mod_whois_legacy_index( $vars );
 	}
 	
 }
