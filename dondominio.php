@@ -381,11 +381,11 @@ function dondominio_output( $vars )
 	 * We do not allow to go anywhere before entering API Username & Password.
 	 */
 	$username = trim( dd_get( 'api_username' ));
-	$password = trim( dd_get( 'api_password' ));
+	$password = trim( base64_decode( dd_get( 'api_password' )));
 	
 	if( strlen( $username ) == 0 || strlen( $password ) == 0 ){
-		$_GET['action'] = 'settings';
-		$_GET['option'] = 'index';
+		$_REQUEST['action'] = 'settings';
+		$_REQUEST['option'] = 'index';
 	}
 	/* * * */
 	
