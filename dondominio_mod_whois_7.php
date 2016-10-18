@@ -254,7 +254,7 @@ function ddwhois_import_json()
 	$new_whois_servers = array();
 	
 	foreach( $whois_servers as $entry ){
-		$extensions = split( ',', $entry['extensions'] );
+		$extensions = explode( ',', $entry['extensions'] );
 		$uri = $entry['uri'];
 		$available = $entry['available'];
 		
