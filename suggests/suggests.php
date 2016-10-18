@@ -12,6 +12,10 @@
 require_once( __DIR__ . '/../../../../init.php' );
 require_once( __DIR__ . '/../lib/sdk/DonDominioAPI.php' );
 
+if( dd_get( 'suggests_enabled' ) == '0' ){
+	die( json_encode( array()));
+}
+
 if( !array_key_exists( 'uid', $_SESSION ) || !$_SESSION['uid'] ){
 	$captcha = md5( $_REQUEST['captcha'] );
 	
@@ -33,8 +37,8 @@ $dd = new \DonDominioAPI( array(
 try{
 	$suggestions = $dd->tool_domainSuggests( array(
 		'query' => $_REQUEST['text'],
-		'language' => ddsuggests_get( 'language' ),
-		'tlds' => ddsuggests_get( 'tlds' )
+		'language' => dd_get( 'suggests_language' ),
+		'tlds' => dd_get( 'suggests_tlds' )
 	));
 }catch( \DonDominioAPI_Error $e ){
 	die( $e->getMessage());
