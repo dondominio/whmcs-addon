@@ -3,7 +3,7 @@
 /**
  * The DonDominio Manager Addon for WHMCS.
  * Mod: TLD Manager
- * WHMCS version 5.2.x / 5.3.x
+ * WHMCS version 5.2.x / 5.3.x / 6.x / 7.x
  * @link https://github.com/dondominio/dondominiowhmcsaddon
  * @package DonDominioWHMCSAddon
  * @license CC BY-ND 3.0 <http://creativecommons.org/licenses/by-nd/3.0/>
@@ -204,20 +204,34 @@ function ddwhois_load_file_json( $vars )
 	";
 	
 	foreach( $json as $entry ){
+		$check = full_query( 'SELECT COUNT( `id` ) FROM `mod_dondominio_pricing` WHERE `tld` = \'' . $entry['extensions'] . '\'' );
+		
+		list( $found ) = mysql_fetch_row( $check );
+		
+		$style = '';
+		
+		if( $found == 0 ){
+			$style = 'style="background-color:#FDF4E8;"';
+		}
+		
+		if( strpos( $entry['uri'], 'whoisproxy.php' )){
+			$style = 'style="background-color:#EBFEE2;"';
+		}
+		
 		echo "
-				<tr>
-					<td width='50%'>
+				<tr $style>
+					<td width='50%' $style>
 						" . $entry['extensions'] . "
 					</td>
 					
-					<td width='50%'>
+					<td width='50%' $style>
 						" . $entry['uri'] . "
 					</td>
 					
-					<td width='1'>
+					<td width='1' $style>
 		";
 		
-		if( is_writable( WHOIS_SERVERS_FILE )){
+		if( is_writable( WHOIS_SERVERS_FILE ) && strlen( dd_get( 'whois_domain' )) && $found > 0 ){
 			echo "
 							<a href='addonmodules.php?module=dondominio&action=whois&form_action=switch&tld=" . $entry['extensions'] . "' class='btn btn-default btn-sm'>
 								" . $lang['config_switch'] . "
@@ -254,7 +268,7 @@ function ddwhois_import_json()
 	$new_whois_servers = array();
 	
 	foreach( $whois_servers as $entry ){
-		$extensions = split( ',', $entry['extensions'] );
+		$extensions = explode( ',', $entry['extensions'] );
 		$uri = $entry['uri'];
 		$available = $entry['available'];
 		
