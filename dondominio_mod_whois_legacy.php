@@ -3,7 +3,7 @@
 /**
  * The DonDominio Manager Addon for WHMCS.
  * Mod: TLD Manager
- * WHMCS version 5.2.x / 5.3.x
+ * WHMCS version 5.2.x / 5.3.x / 6.x / 7.x
  * @link https://github.com/dondominio/dondominiowhmcsaddon
  * @package DonDominioWHMCSAddon
  * @license CC BY-ND 3.0 <http://creativecommons.org/licenses/by-nd/3.0/>
@@ -148,7 +148,7 @@ function dondominio_mod_whois_legacy_index( $vars )
 		</div>
 		";
 		
-		if( !is_writable( WHOIS_SERVERS_FILE )){
+		if( !is_writable( WHOIS_SERVERS_FILE ) && strlen( dd_get( 'whois_domain' ))){
 			echo "<div class='infobox'><span class='title'>" . $lang['error_servers_no_writable'] . "</span></div>";
 			
 			echo "
@@ -206,21 +206,30 @@ function ddwhois_load_file_text( $vars )
 		$server = $components[1];
 		$match = trim( $components[2] );
 		
+		$check = full_query( 'SELECT COUNT( `id` ) FROM `mod_dondominio_pricing` WHERE `tld` = \'' . $tld . '\'' );
+		
+		list( $found ) = mysql_fetch_row( $check );
+		
+		$style = '';
+		
+		if( $found == 0 ){
+			$style = 'style="background-color:#FDF4E8;"';
+		}
 			
 		echo "
 					<tr id='dp-1'>
-						<td>
+						<td $style>
 							$tld
 						</td>
 						
-						<td>
+						<td $style>
 							$server
 						</td>
 						
-						<td>
+						<td $style>
 		"; 
 		
-		if( is_writable( WHOIS_SERVERS_FILE )){
+		if( is_writable( WHOIS_SERVERS_FILE ) && $found > 0 ){
 			echo "
 							<a href='addonmodules.php?module=dondominio&action=whois&form_action=switch&tld=" . $tld . "' class='btn btn-default btn-sm'>
 								" . $lang['config_switch'] . "

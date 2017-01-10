@@ -254,6 +254,8 @@ $_ADDONLANG = array(
 	 */
 	'info_path_whois' => 'Tu fichero de Whois está aquí',
 	'info_path_moreinfo' => 'Documentación',
+	'info_whois_domain' => 'Antes de usar el Proxy de Whois configure el dominio en la pantalla de configuración.',
+	'info_whois_Settings' => 'Haga click aquí para acceder a la configuración',
 	
 	/*
 	 * IMPORT/EXPORT
@@ -266,6 +268,7 @@ $_ADDONLANG = array(
 	 * MESSAGES
 	 */
 	'error_servers_no_writable' => 'La lista de servidores no puede ser escrita por el servidor. Cambia sus permisos o modifícala a mano.',
+	'error_whois_domain_empty' => 'El nombre de dominio del Whois está vacío',
 	'new-tld-error-permissions' => 'No se puede acceder al fichero, comprueba los permisos o edita el fichero directamente',
 	'new-tld-ok' => 'TLD modificado correctamente',
 	'new-tld-error' => 'El campo TLD está vacío',

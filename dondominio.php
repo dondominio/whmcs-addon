@@ -3,7 +3,7 @@
 /**
  * The DonDominio Manager Addon for WHMCS.
  *
- * WHMCS version 5.2.x / 5.3.x
+ * WHMCS version 5.2.x / 5.3.x / 6.x / 7.x
  * @link https://github.com/dondominio/whmcsaddon
  * @package DonDominioWHMCSAddon
  * @license CC BY-ND 3.0 <http://creativecommons.org/licenses/by-nd/3.0/>
@@ -12,14 +12,14 @@
 /**
  * The DonDominio API Client for PHP
  */
-if(!class_exists( 'DonDominioAPI' )){
+if( !class_exists( 'DonDominioAPI' )){
 	require_once( "lib/sdk/DonDominioAPI.php" );
 }
 
 require_once( "dd_utils.php" );
 require_once( "dd_domain_pricing.php" );
 
-if(!defined( "WHMCS" )){
+if( !defined( "WHMCS" )){
 	die( "This file cannot be accessed directly" );
 }
 
@@ -78,7 +78,7 @@ function dondominio_activate()
 	}
 	
 	//Creating mod_dondominio_pricing
-	if( is_array( $result = dd_do_query("
+	if( is_array( $result = dd_do_query( "
 		CREATE TABLE IF NOT EXISTS `mod_dondominio_pricing`
 		(
 			`id` INT( 1 ) NOT NULL AUTO_INCREMENT PRIMARY KEY,
@@ -95,12 +95,12 @@ function dondominio_activate()
 			`authcode_required` TINYINT(1) NULL,
 			`last_update` DATETIME NOT NULL
 		)
-	"))){
+	" ))){
 		return $result;
 	}
 	
 	//Creating mod_dondominio_tld_settings
-	if( is_array( $result = dd_do_query("
+	if( is_array( $result = dd_do_query( "
 		CREATE TABLE IF NOT EXISTS `mod_dondominio_tld_settings`
 		(
 			`id` INT(1) NOT NULL AUTO_INCREMENT PRIMARY KEY,
@@ -115,18 +115,18 @@ function dondominio_activate()
 			`transfer_increase_type` VARCHAR(16) NOT NULL DEFAULT 'fixed',
 			UNIQUE INDEX `unique_tld` (`tld`)
 		)
-	"))){
+	" ))){
 		return $result;
 	}
 	
 	//Creating mod_dondominio_settings
-	if( is_array( $result = dd_do_query("
+	if( is_array( $result = dd_do_query( "
 		CREATE TABLE IF NOT EXISTS `mod_dondominio_settings`
 		(
 			`key` VARCHAR(32) NOT NULL PRIMARY KEY,
 			`value` VARCHAR(256) NULL
 		)
-	"))){
+	" ))){
 		return $result;
 	}
 	
@@ -142,7 +142,7 @@ function dondominio_activate()
 	}
 	
 	//Default values
-	if( is_array( $result = dd_do_query("
+	if( is_array( $result = dd_do_query( "
 		INSERT INTO `mod_dondominio_settings` (`key`, `value`) VALUES
 			('register_increase', '0.00'),
 			('transfer_increase', '0.00'),
@@ -158,7 +158,7 @@ function dondominio_activate()
 			('api_password', ''),
 			('watchlist_mode', 'disabled'),
 			('prices_autoupdate', '0')
-	"))){
+	" ))){
 		return $result;
 	}
 	
@@ -177,21 +177,21 @@ function dondominio_deactivate()
 {
 	
 	//Removing mod_dondominio_pricing
-	if( is_array( $result = dd_do_query("DROP TABLE IF EXISTS `mod_dondominio_pricing`" ))){
+	if( is_array( $result = dd_do_query( "DROP TABLE IF EXISTS `mod_dondominio_pricing`" ))){
 		return $result;
 	}
 	
 	//Removing mod_dd_settings
-	if( is_array( $result = dd_do_query("DROP TABLE IF EXISTS `mod_dondominio_settings`" ))){
+	if( is_array( $result = dd_do_query( "DROP TABLE IF EXISTS `mod_dondominio_settings`" ))){
 		return $result;
 	}
 	
 	//Removing mod_dd_settings
-	if( is_array( $result = dd_do_query("DROP TABLE IF EXISTS `mod_dondominio_watchlist`" ))){
+	if( is_array( $result = dd_do_query( "DROP TABLE IF EXISTS `mod_dondominio_watchlist`" ))){
 		return $result;
 	}
 	
-	return array('status' => 'success','description' => 'The DonDominio Manager Addon has been successfully disabled.');
+	return array( 'status' => 'success', 'description' => 'The DonDominio Manager Addon has been successfully disabled.' );
 }
 
 /**
@@ -200,7 +200,7 @@ function dondominio_deactivate()
  * @param Array $vars Parameters passed by WHMCS
  * @return bool
  */
-function dondominio_upgrade($vars)
+function dondominio_upgrade( $vars )
 {
 	$version = $vars['version'];
 		
@@ -369,11 +369,11 @@ function dondominio_output( $vars )
 	$version = $vars['version'];
 	$LANG = $vars['_lang'];
 	
-	if(!array_key_exists( 'action', $_REQUEST )){
+	if( !array_key_exists( 'action', $_REQUEST )){
 		$_REQUEST['action'] = 'tlds';
 	}
 	
-	if(!array_key_exists( 'option', $_REQUEST )){
+	if( !array_key_exists( 'option', $_REQUEST )){
 		$_REQUEST['option'] = 'index';
 	}
 	
@@ -414,7 +414,7 @@ function dondominio_output( $vars )
  * Build the sidebar for the addon.
  * @param array $vars Parameters from WHMCS
  * @return string
- */
+ */	
 function dondominio_sidebar( $vars )
 {
 	$modulelink = $vars['modulelink'];

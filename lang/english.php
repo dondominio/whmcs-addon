@@ -254,6 +254,8 @@ $_ADDONLANG = array(
 	 */
 	'info_path_whois' => 'Yor Whois servers file is located here',
 	'info_path_moreinfo' => 'Documentation',
+	'info_whois_domain' => 'Before using the Whois Proxy, configure it on the settings screen.',
+	'info_whois_settings' => 'Click here to access the settings screen',
 	
 	/*
 	 * IMPORT/EXPORT
@@ -266,6 +268,7 @@ $_ADDONLANG = array(
 	 * MESSAGES
 	 */
 	'error_servers_no_writable' => 'Whois servers file is not writable by the server. Make it writable or edit it directly.',
+	'error_whois_domain_empty' => 'Whois domain name is empty',
 	'new-tld-error-permissions' => 'Couldn\'t access file, check permissions or edit the file directly',
 	'new-tld-ok' => 'TLD updated successfully',
 	'new-tld-error' => 'Empty TLD provided',

@@ -1,11 +1,20 @@
 <?php
 
 /**
+ * The DonDominio Manager Addon for WHMCS.
+ * Mod: Domain Pricing
+ * WHMCS version 5.2.x / 5.3.x / 6.x / 7.x
+ * @link https://github.com/dondominio/dondominiowhmcsaddon
+ * @package DonDominioWHMCSAddon
+ * @license CC BY-ND 3.0 <http://creativecommons.org/licenses/by-nd/3.0/>
+ */
+
+/**
  * Creates pricing for a new TLD.
  * @param string $tld TLD the prices will be created for
  * @return bool
  */
-function dd_domain_pricing($tld)
+function dd_domain_pricing( $tld )
 {
 	//Getting currency
 	$euro_currency = full_query("
