@@ -80,6 +80,7 @@ $_ADDONLANG = array(
 	'tld_update_success' => 'Los siguientes TLDs se han actualizado correctamente:',
 	'btn_prices_selected' => 'Actualizar precios',
 	'btn_registrar_selected' => 'Cambiar registrador a DonDominio',
+	'btn_reorder_selected' => 'Reordenar los TLDs',
 	'btn_create_selected' => 'Añadir a WHMCS',
 	'tld_register' => 'Registro',
 	'tld_transfer' => 'Transferencia',

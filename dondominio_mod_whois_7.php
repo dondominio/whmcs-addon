@@ -44,10 +44,6 @@ function dondominio_mod_whois_7_index( $vars )
 			ddwhois_setup( $vars, $_GET['tld'] );
 		}
 		break;
-	case 'settings':
-		ddwhois_settings( $vars );
-		
-		break;
 	case 'new_tld':
 		ddwhois_new_tld( $vars );
 		break;
@@ -103,7 +99,6 @@ function dondominio_mod_whois_7_index( $vars )
 		});
 		</script>
 		
-		<a class='btn btn-default btn-sm' href='addonmodules.php?module=dondominio&action=whois&form_action=settings'>" . $lang['config_settings'] . "</a>
 		<a class='btn btn-default btn-sm' href='addonmodules.php?module=dondominio&action=whois&form_action=export'>" . $lang['servers_export'] . "</a>
 		<a class='btn btn-default btn-sm' href='addonmodules.php?module=dondominio&action=whois&form_action=import'>" . $lang['servers_import'] . "</a>
 		
