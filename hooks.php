@@ -41,7 +41,7 @@ add_hook( 'ClientAreaFooterOutput', 1, function( $vars )
 	/*
 	 * Modify the `template.html` file to match your templates as you need.
 	 */
-	$html .= include( __DIR__ . '/template.php' );
+	$html .= include( __DIR__ . '/suggests/template.php' );
 	
 	$html .= "
     </script>
