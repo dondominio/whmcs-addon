@@ -62,6 +62,11 @@ function dd_domain_pricing( $tld )
 	list($register_price, $transfer_price, $renew_price, $register_range, $transfer_range, $renew_range) = mysql_fetch_row($prices);
 	
 	$register = array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
+	
+	if( dd_get_whmcs_version() >= 6 ){
+		$register = array( -1, -1, -1, -1, -1, -1, -1, -1, -1, -1 );
+	}
+	
 	$transfer = array(-1, -1, -1, -1, -1, -1, -1, -1, -1, -1);
 	$renew = array(-1, -1, -1, -1, -1, -1, -1, -1, -1, -1);
 	
