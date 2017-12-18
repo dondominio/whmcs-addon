@@ -178,7 +178,7 @@ function hook_daily_cron_job()
 			$q_update = full_query( $s_update );
 			
 			if( array_key_exists( 'create', $data )){
-				$create_price = (int) $data['create']['price'];
+				$create_price = (float) $data['create']['price'];
 				$create_range = (int) $data['create']['years'];
 			}else{
 				$create_price = 0;
@@ -186,7 +186,7 @@ function hook_daily_cron_job()
 			}
 			
 			if( array_key_exists( 'transfer', $data )){
-				$transfer_price = (int) $data['transfer']['price'];
+				$transfer_price = (float) $data['transfer']['price'];
 				$transfer_range = (int) $data['transfer']['years'];
 			}else{
 				$transfer_price = 0;
@@ -194,7 +194,7 @@ function hook_daily_cron_job()
 			}
 			
 			if( array_key_exists( 'renew', $data )){
-				$renew_price = (int) $data['renew']['price'];
+				$renew_price = (float) $data['renew']['price'];
 				$renew_range = (int) $data['renew']['years'];
 			}else{
 				$renew_price = 0;
