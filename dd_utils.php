@@ -23,7 +23,18 @@ function dd_get_whmcs_version()
 	
 	return intval( $version_components[0] );
 }
- 
+
+function dd_get_whmcs_sub_version()
+{
+    $q_version = full_query( "SELECT value FROM tblconfiguration WHERE setting = 'version'" );
+
+    list( $version ) = mysql_fetch_row( $q_version );
+
+    $version_components = explode( '.', $version );
+
+    return intval( $version_components[1] );
+}
+
 /**
  * Get a value from the settings table.
  * @param string $key Key of the value to get
