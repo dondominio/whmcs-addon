@@ -418,23 +418,46 @@ function dondominio_mod_tlds_create( $vars )
 			
 			$authcode = ( $authcode_required == 1 ) ? 'on' : '';
 			
-			if( (int) dd_get_whmcs_version() >= 7 ){
-				$s_insert = "
-					INSERT INTO tbldomainpricing
-					VALUES (
-						NULL,
-						'$tld_id',
-						'',
-						'',
-						'',
-						'$authcode',
-						'dondominio',
-						0,
-						'none'
-					)
-				";
-			}else{
-				$s_insert = "
+			if ( (int) dd_get_whmcs_version() >= 7 ) {
+                if ( (int) dd_get_whmcs_sub_version() >= 6 ) {
+                    $s_insert = "
+						INSERT INTO tbldomainpricing
+						VALUES (
+							NULL,
+							'$tld_id',
+							0,
+							0,
+							0,
+							'$authcode',
+							'dondominio',
+							0,
+							'none',
+							-1,
+							0.00,
+							-1,
+							0.00,
+							NOW(),
+							NOW()
+						)
+					";
+                } else {
+                    $s_insert = "
+						INSERT INTO tbldomainpricing
+						VALUES (
+							NULL,
+							'$tld_id',
+							'',
+							'',
+							'',
+							'$authcode',
+							'dondominio',
+							0,
+							'none'
+						)
+					";
+                }
+            } else {
+                $s_insert = "
 					INSERT INTO tbldomainpricing
 					VALUES (
 						NULL,
@@ -447,7 +470,7 @@ function dondominio_mod_tlds_create( $vars )
 						0
 					)
 				";
-			}
+            }
 			
 			full_query( $s_insert );
 			
