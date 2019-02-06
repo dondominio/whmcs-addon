@@ -50,6 +50,7 @@ class DonDominioAPI extends DonDominioAPIClientPostCurl
 	protected $contact;
 	protected $domain;
 	protected $tool;
+	protected $service;
 	/**#@-*/
 	
 	/**
@@ -112,6 +113,13 @@ class DonDominioAPI extends DonDominioAPIClientPostCurl
 			$this->service = new DonDominioAPI_Service( $this );
 		}
 	}
+
+	public function close()
+	{
+		if( is_object( $this->client )){
+			$this->client->close();
+		}
+	}
 	
 	/**
 	 * Set an option.
@@ -147,7 +155,7 @@ class DonDominioAPI extends DonDominioAPIClientPostCurl
 	 */
 	public function __call( $method, array $args = array())
 	{
-		if( !strpos( $method, '_' )){
+		if( strpos( $method, '_' ) === false ){
 			trigger_error( 'Invalid call: ' . $method, E_USER_ERROR );
 		}
 		

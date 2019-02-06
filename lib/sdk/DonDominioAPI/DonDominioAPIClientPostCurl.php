@@ -24,7 +24,7 @@ class DonDominioAPIClientPostCurl implements DonDominioAPIClientInterface
 	
 	protected $userAgent = array(
 		'ClientPlatform' => 'PHP',
-		'ClientVersion' => '1.5',
+		'ClientVersion' => '1.5.1',
 		'PHPVersion' => '',
 		'OperatingSystem' => '',
 		'OperatingSystemVersion' => ''
@@ -171,9 +171,9 @@ class DonDominioAPIClientPostCurl implements DonDominioAPIClientInterface
 		curl_setopt( $this->ch, CURLOPT_HEADER, false );
 		curl_setopt( $this->ch, CURLOPT_RETURNTRANSFER, true );
 		 
-		if( $this->options['verifySSL'] == true ){
-			curl_setopt( $this->ch, CURLOPT_SSL_VERIFYPEER, 1 );
-			curl_setopt( $this->ch, CURLOPT_SSL_VERIFYHOST, 2 );
+		if( $this->options['verifySSL'] == false ){
+			curl_setopt( $this->ch, CURLOPT_SSL_VERIFYPEER, 0 );
+			curl_setopt( $this->ch, CURLOPT_SSL_VERIFYHOST, 0 );
 		}
 		
 		curl_setopt( $this->ch, CURLOPT_CONNECTTIMEOUT, 30 );
@@ -207,13 +207,19 @@ class DonDominioAPIClientPostCurl implements DonDominioAPIClientInterface
 		}
 	}
 	
+	public function close()
+	{
+		if( $this->ch ){
+			curl_close( $this->ch );
+			$this->ch = null;
+		}
+	}
+
 	/**
 	 * Freeing resources.
 	 */
 	public function __destruct()
 	{
-		if( $this->ch ){
-			curl_close( $this->ch );
-		}
+		$this->close();
 	}
 }
