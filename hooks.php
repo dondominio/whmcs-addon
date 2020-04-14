@@ -681,6 +681,8 @@ function dd_update_prices()
 					relid NOT IN (SELECT id FROM tbldomainpricing WHERE extension IN (SELECT tld FROM mod_dondominio_tld_settings WHERE `ignore` = 1))
 				)
 		";
+		
+		full_query( $s_register );
 				
 		//Updating transfer prices
 		$s_transfer = "
