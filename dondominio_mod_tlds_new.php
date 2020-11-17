@@ -419,7 +419,7 @@ function dondominio_mod_tlds_create( $vars )
 			$authcode = ( $authcode_required == 1 ) ? 'on' : '';
 			
 			if ( (int) dd_get_whmcs_version() >= 7 ) {
-                if ( (int) dd_get_whmcs_sub_version() >= 6 ) {
+                if ( (int) dd_get_whmcs_sub_version() >= 6 || (int) dd_get_whmcs_version() == 8) {
                     $s_insert = "
 						INSERT INTO tbldomainpricing
 						VALUES (
