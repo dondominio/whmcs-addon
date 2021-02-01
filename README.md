@@ -1,21 +1,16 @@
-# WHMCS Domain Management Tool from DonDominio/MrDomain
-
-This addon for WHMCS will enable you to manage your domains in your DonDominio/MrDomain account
-directly within WHMCS's administration panel.
-
-Import your domains from DonDominio/MrDomain, perform mass changes to them, add and configure TLDs,
-automatically update prices and domain status, and more.
-
-For more information, documentation, support, and guides, visit
-[dev.mrdomain.com/whmcs/docs/addon/](https://dev.mrdomain.com/whmcs/docs/addon/).
-
 # Herramienta de Gestión de Dominios para WHMCS de DonDominio/MrDomain
 
-Este módulo para WHMCS te permitirá gestionar tus dominios en tu cuenta de DonDominio/MrDomain
-directamente desde el panel de administración de WHMCS.
+## Este proyecto ha sido declarado obsoleto.
+## This project has been deprecated.
 
-Importa tus dominios desde DonDominio/MrDomain, haz cambios masivos en ellos, añade y configura
-nuevos TLDs, actualiza automáticamente los precios y el estado de los dominios, y más.
+### WHMCS 7 y 8
 
-Para más información, documentación, soporte y guías, visita
-[dev.dondominio.com/whmcs/docs/addon/](https://dev.dondominio.com/whmcs/docs/addon/).
+Su funcionalidad está incorporada en [Módulos de Integración DonDominio - WHMCS](https://github.com/dondominio/whmcs)
+
+This functionality is now built in [MrDomain - WHMCS Modules Integration](https://github.com/dondominio/whmcs)
+
+### WHMCS 6
+
+Si todavía está usando la versión 6 de WHMCS o inferior, le recomendamos que descargue e instale [ésta versión](https://github.com/dondominio/whmcs-addon/releases) aunque está totalmente descatalogada y le recomendamos que actualice su panel de WHMCS a la última versión.
+
+If you are still using WHMCS version 6 or lower, we recommend that you download and install [this version](https://github.com/dondominio/whmcs-addon/releases) although it is completely discontinued and we recommend that you update your WHMCS to the latest version.
